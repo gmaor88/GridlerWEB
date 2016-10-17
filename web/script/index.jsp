@@ -1,4 +1,4 @@
-<%--
+-
   Created by IntelliJ IDEA.
   User: Maor Gershkovitch
   Date: 10/9/2016
