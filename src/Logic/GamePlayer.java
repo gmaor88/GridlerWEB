@@ -12,7 +12,6 @@ import java.util.Random;
  */
 public class GamePlayer {
     private final String f_Name;
-    private  final String f_Id;
     private final Boolean f_IsHuman;
     private GameBoard m_GameBoard;
     private Integer m_TurnLimit = 0;
@@ -27,10 +26,9 @@ public class GamePlayer {
     private double m_Score = 0;
     private long m_Timer = 0;
 
-    public GamePlayer(Boolean i_isHuman, String i_Name, String i_Id){
+    public GamePlayer(Boolean i_isHuman, String i_Name){
         f_IsHuman = i_isHuman;
         f_Name = i_Name;
-        f_Id = i_Id;
     }
 
     public void incrementTime(){
@@ -49,8 +47,6 @@ public class GamePlayer {
     public void setGameBoard(GameBoard i_GameBoard){
         m_GameBoard = new GameBoard(i_GameBoard);
     }
-
-    public  String getId(){return  f_Id;}
 
     public boolean isUndoAvailable(){
         return !m_UndoList.isEmpty();

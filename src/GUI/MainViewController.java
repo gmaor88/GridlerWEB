@@ -295,7 +295,6 @@ public class MainViewController implements Initializable {
         for (GamePlayer player : m_Players) {
             final MenuItem playerBoardMenuItem = new MenuItem();
             playerBoardMenuItem.setText(player.getName());
-            playerBoardMenuItem.setId(player.getId());//Test
             playerBoardMenuItem.setOnAction((event) -> playerBoardMenuItemClicked(player));
             PlayersBoardsMenu.getItems().add(playerBoardMenuItem);
             m_PlayersBoardsMenuItems.add(i, playerBoardMenuItem);
@@ -664,7 +663,7 @@ public class MainViewController implements Initializable {
             updateBlocks(m_HorizontalBlocksLabel.get(i), i_Player.getHorizontalSlice(i));
             for (int j = 0; j < m_LoadedBoard.getBoardWidth(); j++) {
                 setBoardButtonStyle(m_GameBoardButtons.get(i).get(j), i_Player.getGameBoardSquareSign(i, j));
-                m_GameBoardButtons.get(i).get(j).setDisable(!i_Player.getId().equalsIgnoreCase(m_CurrentPlayer.getId()));
+                m_GameBoardButtons.get(i).get(j).setDisable(!i_Player.getName().equalsIgnoreCase(m_CurrentPlayer.getName()));
             }
         }
 
@@ -672,7 +671,7 @@ public class MainViewController implements Initializable {
             updateBlocks(m_VerticalBlocksLabel.get(j), i_Player.getVerticalSlice(j));
         }
 
-        enableDisableControlButtons(!i_Player.getId().equalsIgnoreCase(m_CurrentPlayer.getId()));
+        enableDisableControlButtons(!i_Player.getName().equalsIgnoreCase(m_CurrentPlayer.getName()));
     }
 
     private void enableDisableControlButtons(boolean i_Disable) {// if true the buttons disabled
@@ -718,7 +717,6 @@ public class MainViewController implements Initializable {
     private void updatePlayerDataLabels() {
         playersNameLabel.setText(m_CurrentPlayer.getName());
         scoreLabel.setText(((Integer) ((int) m_CurrentPlayer.getScore())).toString());
-        IDLabel.setText(m_CurrentPlayer.getId());
         turnsLeftInGameLabel.setText(((Integer) (m_CurrentPlayer.getTurnLimit() - m_CurrentPlayer.getTurnNumber())).toString());
         movesLeftInTurnLabel.setText(((Integer) (2 - m_CurrentPlayer.getNumOfMovesMade())).toString());
         if (m_IsGameTypeSinglePlayer) {
