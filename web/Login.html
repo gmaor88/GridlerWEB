@@ -3,32 +3,29 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login</title>
-    <!--<script src="script/jquery-3.1.1.min.js"></script-->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="script/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="script/bootstrap.min.js">
     <link rel="stylesheet" type="text/css" href="css/Login.css">
 </head>
 <body>
+<form method="GET" action="Login">
 <div class="login">
     <div class="login-screen">
         <div class="app-title">
             <h1>Gridler</h1>
         </div>
-
         <div class="login-form">
             <div class="control-group">
-                <input type="text" class="login-field" value="" placeholder="username" id="login-name">
+                <input type="text" class="login-field" value="" placeholder="username" id="login-name" name="username">
                 <label class="login-field-icon fui-user" for="login-name"></label>
-                <div class="LabeledCheckboxGroup">
-                <label for="IsHumanCheckbox"  style="word-wrap:break-word">
-                    <input id="IsHumanCheckbox" type="checkbox" value="human" checked/>Human player </label>
-                </div>
+                <input type="checkbox" checked id="IsHuman" name="IsHuman"> Human Player
             </div>
-
-            <a class="btn btn-primary btn-large btn-block" href="#" onclick="process()">login</a>
+            <input type="submit" value="login" class="btn btn-primary btn-large btn-block">
             <!--errorMsg below will later be filed with script and ajax to show a msg when a name is already exist-->
-            <p class="errorMsg" href="#"></p>
+            <p class="errorMsg" href="#" name="errorMsg"></p>
         </div>
     </div>
 </div>
+</form>
 </body>
 </html>

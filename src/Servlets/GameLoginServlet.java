@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static Utils.Constants.IS_HUMAN;
 import static Utils.Constants.USERNAME;
 
 /**
  * Created by Maor Gershkovitch on 10/18/2016.
  */
-@WebServlet(name = "GameLoginServlet", urlPatterns = {"/login"})
+@WebServlet(name = "GameLoginServlet", urlPatterns = {"/Login"})
 public class GameLoginServlet extends HttpServlet {
 
     /**
@@ -33,7 +34,6 @@ public class GameLoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String usernameFromSession = SessionUtils.getUsername(request);
-        Boolean isHumen = SessionUtils.getIfHuman(request);
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         if (usernameFromSession == null) {
             //user is not logged in yet
@@ -52,14 +52,20 @@ public class GameLoginServlet extends HttpServlet {
                     //username already exists, forward the request back to index.jsp
                     //with a parameter that indicates that an error should be displayed
                     request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
-                    getServletContext().getRequestDispatcher("/Login.js").forward(request, response);
+                    getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
                 } else {
                     //add the new user to the users list
-                    gameManager.AddUser(usernameFromParameter, isHumen);
+                    Boolean isHuman = false;
+                    String userInput = request.getParameter(IS_HUMAN);
+                    if (userInput!=null){
+                        isHuman = userInput.equalsIgnoreCase("on") ? true : false;
+                    }
                     //set the username in a session so it will be available on each request
                     //the true parameter means that if a session object does not exists yet
                     //create a new one
+                    gameManager.AddUser(usernameFromParameter, isHuman);
                     request.getSession(true).setAttribute(Constants.USERNAME, usernameFromParameter);
+                    request.getSession(true).setAttribute(IS_HUMAN, isHuman.toString());
 
                     //redirect the request to the chat room - in order to actually change the URL
                     response.sendRedirect("GameLobby.html");
