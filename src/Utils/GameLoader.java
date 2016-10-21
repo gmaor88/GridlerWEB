@@ -99,7 +99,7 @@ public class GameLoader {
     private ArrayList<GamePlayer> loadSinglePlayer() {
         ArrayList<GamePlayer> players = new ArrayList<>();
 
-        players.add(new GamePlayer(true,"",""));
+        players.add(new GamePlayer(true,""));
 
         return players;
     }
@@ -120,13 +120,13 @@ public class GameLoader {
         for(int i = 0; i < numberOfPlayers; i++) {
             playerId = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(i).getId().toString();
             for (GamePlayer player : players){
-                if(playerId.equalsIgnoreCase(player.getId())){
+                if(playerId.equalsIgnoreCase(player.getName())){
                     throw new GameLoadException("2 different players with the same ID.");
                 }
             }
             playerName = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(i).getName();
             humanPlayer = i_GameDescriptor.getMultiPlayers().getPlayers().getPlayer().get(i).getPlayerType().equalsIgnoreCase("Human");
-            players.add(new GamePlayer(humanPlayer, playerName, playerId));
+            players.add(new GamePlayer(humanPlayer, playerName));
         }
 
         if (!Tools.tryParseInt(i_GameDescriptor.getMultiPlayers().getMoves())) {
