@@ -47,7 +47,7 @@ public class GameLoginServlet extends HttpServlet {
             } else {
                 //normalize the username value
                 usernameFromParameter = usernameFromParameter.trim();
-                if (gameManager.m_OnlinePlayers.containsKey("usernameFromSession")) {
+                if (gameManager.m_OnlinePlayers.containsKey(usernameFromParameter)) {
                     String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
                     //username already exists, forward the request back to index.jsp
                     //with a parameter that indicates that an error should be displayed

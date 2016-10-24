@@ -71,8 +71,9 @@ input:focus {
 }
 
 .errorMsg{
-    font-size: 12px;
+    font-size: 14px;
     color: red;
+    font-weight: bold;
 }
 
 input[type="checkbox"]{
