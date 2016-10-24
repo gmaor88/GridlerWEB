@@ -1,240 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Bootstrap 3, from LayoutIt!</title>
-
-    <meta name="description" content="Source code generated using layoutit.com">
-    <meta name="author" content="LayoutIt!">
-
-   <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Game Lobby</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/GameLobby.css" rel="stylesheet">
+    <script src="script/jquery-3.1.1.min.js"></script>
+    <script src="script/bootstrap.min.js"></script>
+    <script src="script/GameLobby.js"></script>
+</head>
+<body>
+<form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                Welcome To Game Lobby
+            </h1>
+            <button class="btn btn-danger" type="button" id="LogoutButton">
+                Logout
+            </button>
+        </div>
+    </div>
+    <div class="row" id="LobbyTables">
+        <div class="col-md-4" id="OnlinePlayersTable">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Player's Name
+                    </th>
+                    <th>
+                        Human
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
 
-  </head>
-  <body>
-
-    <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h3>
-				h3. Lorem ipsum dolor sit amet.
-			</h3>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-5">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Product
-						</th>
-						<th>
-							Payment Taken
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Approved
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							2
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							02/04/2012
-						</td>
-						<td>
-							Declined
-						</td>
-					</tr>
-					<tr class="warning">
-						<td>
-							3
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							03/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-					</tr>
-					<tr class="danger">
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-6">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Product
-						</th>
-						<th>
-							Payment Taken
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Approved
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							2
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							02/04/2012
-						</td>
-						<td>
-							Declined
-						</td>
-					</tr>
-					<tr class="warning">
-						<td>
-							3
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							03/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-					</tr>
-					<tr class="danger">
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="btn-group">
-				 
-				<button class="btn btn-default" type="button">
-					<em class="glyphicon glyphicon-align-left"></em> Left
-				</button> 
-				<button class="btn btn-default" type="button">
-					<em class="glyphicon glyphicon-align-center"></em> Center
-				</button> 
-				<button class="btn btn-default" type="button">
-					<em class="glyphicon glyphicon-align-right"></em> Right
-				</button> 
-				<button class="btn btn-default" type="button">
-					<em class="glyphicon glyphicon-align-justify"></em> Justify
-				</button>
-			</div>
-		</div>
-	</div>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5" id="GameRoomTable">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Game Name
+                    </th>
+                    <th>
+                        Uploaded By
+                    </th>
+                    <th>
+                        Max Plays
+                    </th>
+                    <th>
+                        Board Size
+                    </th>
+                    <th>
+                        Players Required
+                    </th>
+                    <th>
+                        Players Registered
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="startButtonArea">
+            <button class="btn btn-success" type="button" id="StartGameButton">
+                Start Game
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="CreateNewGameArea">
+            <label class="btn btn-default btn-file">
+                Browse <input type="file" style="display: none;">
+            </label>
+            Game name: <input type="text" id="UploadedGameName" value="" disabled>
+        </div>
+        <p class="errorMsg" href="#" name="errorMsg"></p>
+    </div>
 </div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-  </body>
+</form>
+</body>
 </html>

@@ -1,1 +1,43 @@
-# Empty CSS file for your own CSS
+H1{
+    padding-top: 20px;
+    color: #0d8bc6;
+    display: inline-block;
+}
+#LobbyTables{
+    margin-top: 20px;
+}
+#OnlinePlayersTable{
+    padding-top: 20px;
+}
+.btn-danger{
+    float: right;
+    margin-top: 45px;
+    margin-right: 40px;
+}
+.btn-success{
+    margin-top: 20px;
+}
+#CreateNewGameArea{
+    margin-top: 30px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: lightgray;
+    cursor: inherit;
+    display: block;
+}
