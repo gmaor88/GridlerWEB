@@ -11,12 +11,14 @@ public class GameRoom {
     private final Integer f_MaxNumOfPlayers;
     private Boolean m_IsGameRunning = false;
     private final Integer f_TurnLimit;
+    private final String f_CreatorName;
 
-    public GameRoom(GameBoard i_Board, Integer i_MaxNumOfPlayers, Integer i_TurnLimit){
+    public GameRoom(GameBoard i_Board, Integer i_MaxNumOfPlayers, Integer i_TurnLimit, String i_CreatorName){
         f_MaxNumOfPlayers = i_MaxNumOfPlayers;
         f_TurnLimit = i_TurnLimit;
         f_Board = i_Board;
         m_Players = new LinkedList<>();
+        f_CreatorName = i_CreatorName;
     }
 
     public void InsertPlayerToGameRoom(GamePlayer i_Player){
@@ -50,5 +52,25 @@ public class GameRoom {
 
     public Integer getMaxNumOfPlayers() {
         return f_MaxNumOfPlayers;
+    }
+
+    public String getCreatorName() {
+        return f_CreatorName;
+    }
+
+    public Integer getTurnLimit() {
+        return f_TurnLimit;
+    }
+
+    public Integer getCurrentNumOfPlayers(){
+        return m_Players.size();
+    }
+
+    public Integer getBoardWidth(){
+        return f_Board.getBoardWidth();
+    }
+
+    public Integer getBoardHeight(){
+        return f_Board.getBoardHeight();
     }
 }

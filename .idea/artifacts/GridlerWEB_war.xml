@@ -3,6 +3,11 @@
     <output-path>$PROJECT_DIR$/out/artifacts/GridlerWEB_war</output-path>
     <root id="archive" name="GridlerWEB_war.war">
       <element id="artifact" artifact-name="GridlerWEB:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/src/gson-2.2.2.jar" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
