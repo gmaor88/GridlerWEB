@@ -5,7 +5,7 @@ var chatVersion = 0;
 var refreshRate = 2000; //miliseconds
 
 function triggerAjaxGameRoomsContent() {
-    setTimeout(ajaxChatContent, refreshRate);
+    setTimeout(ajaxGameRoomsContent, refreshRate);
 }
 
 //activate the timer calls after the page is loaded
@@ -42,31 +42,33 @@ function refreshUsersList(users) {
     });
 }
 
-function ajaxChatContent() {
+function ajaxGameRoomsContent() {
     $.ajax({
-        url: "chat",
-        data: "chatversion=" + chatVersion,
+        url: "GameRoomListServlet",
         dataType: 'json',
-        success: function(data) {
-            console.log("Server chat version: " + data.version + ", Current chat version: " + chatVersion);
-            if (data.version !== chatVersion) {
-                chatVersion = data.version;
-                appendToChatArea(data.entries);
-            }
-            triggerAjaxGameRoomsContent();
-        },
-        error: function(error) {
-            triggerAjaxGameRoomsContent();
+        success: function(gameRooms) {
+            refreshGameRoomsList(gameRooms);
         }
     });
 }
 
-function appendToChatArea(entries) {
-//    $("#chatarea").children(".success").removeClass("success");
-    $.each(entries || [], appendChatEntry);
-    var scroller = $("#chatarea");
-    var height = scroller[0].scrollHeight - $(scroller).height();
+function refreshGameRoomsList(gameRooms) {
+    //clear all current users
+    $("#GameRoomsTableBody").empty();
+    var i=1;
 
-    $(scroller).stop().animate({ scrollTop: height }, "slow");
+    $.each(gameRooms || [], function(index, gameRoom) {
+        console.log("Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value);
+        $('<tr>' + '<td>' + i + '<td>' + gameRoom.key + '</td>' + '<td>'+ gameRoom.value +'</td>' + '</tr>' ).appendTo($("#GameRoomsTableBody"));
+        i++;
+    });
 }
+
+/*$('#LogoutButton').click(function () {
+    $.ajax({
+        url: "LogoutServlet",
+        success: function () {}
+    })
+})*/
+
 

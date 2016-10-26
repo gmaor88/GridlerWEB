@@ -35,87 +35,86 @@ public class GameRoomListServlet extends HttpServlet {
             Gson gson = new Gson();
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoomsData gameRoomData = new GameRoomsData(gameManager.m_GameRooms);
-            String json = gson.toJson(gameManager.getGameRoomData());
+            String json = gson.toJson(gameRoomData);
             out.println(json);
             out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-}
+    class GameRoomsData{
+        private final HashMap<String, GameInfo> f_GameRoomName = new HashMap<>();
 
-class GameRoomsData{
-    private final HashMap<String, GameInfo> f_GameRoomName = new HashMap<>();
+        public GameRoomsData(HashMap<String, GameRoom> i_GameRooms){
+            GameInfo gameInfo;
+            for(Map.Entry<String,GameRoom> entry : i_GameRooms.entrySet()){
 
-    public GameRoomsData(HashMap<String, GameRoom> i_GameRooms){
-        GameInfo gameInfo;
-        for(Map.Entry<String,GameRoom> entry : i_GameRooms.entrySet()){
-
-            gameInfo = new GameInfo();
-            gameInfo.setBoardSize(entry.getValue().getBoardHeight(), entry.getValue().getBoardWidth());
-            gameInfo.setCurrentNumOfPlayers(entry.getValue().getCurrentNumOfPlayers());
-            gameInfo.setGameCreator(entry.getValue().getCreatorName());
-            gameInfo.setMaxNumOfPlayers(entry.getValue().getMaxNumOfPlayers());
-            gameInfo.setTurnLimit(entry.getValue().getTurnLimit());
-            f_GameRoomName.put(entry.getKey(), gameInfo);
+                gameInfo = new GameInfo();
+                gameInfo.setBoardSize(entry.getValue().getBoardHeight(), entry.getValue().getBoardWidth());
+                gameInfo.setCurrentNumOfPlayers(entry.getValue().getCurrentNumOfPlayers());
+                gameInfo.setGameCreator(entry.getValue().getCreatorName());
+                gameInfo.setMaxNumOfPlayers(entry.getValue().getMaxNumOfPlayers());
+                gameInfo.setTurnLimit(entry.getValue().getTurnLimit());
+                f_GameRoomName.put(entry.getKey(), gameInfo);
+            }
         }
+
+        class GameInfo{
+            private String m_GameCreator;
+            private Integer m_MaxNumOfPlayers;
+            private Integer m_CurrentNumOfPlayers;
+            private Boolean m_IsGameRunning;
+            private String m_BoardSize;
+            private Integer m_TurnLimit;
+
+            public Boolean geIsGameRunning() {
+                return m_IsGameRunning;
+            }
+
+            public Integer getCurrentNumOfPlayers() {
+                return m_CurrentNumOfPlayers;
+            }
+
+            public Integer getMaxNumOfPlayers() {
+                return m_MaxNumOfPlayers;
+            }
+
+            public Integer getTurnLimit() {
+                return m_TurnLimit;
+            }
+
+            public String getBoardSize() {
+                return m_BoardSize;
+            }
+
+            public String getGameCreator() {
+                return m_GameCreator;
+            }
+
+            public void setIsGameRunning(Boolean i_IsGameRunning) {
+                m_IsGameRunning = i_IsGameRunning;
+            }
+
+            public void setBoardSize(Integer i_Rows, Integer i_Cols) {
+                m_BoardSize = i_Rows + " X " + i_Cols;
+            }
+
+            public void setCurrentNumOfPlayers(Integer i_CurrentNumOfPlayers) {
+                m_CurrentNumOfPlayers = i_CurrentNumOfPlayers;
+            }
+
+            public void setGameCreator(String i_GameCreator) {
+                this.m_GameCreator = i_GameCreator;
+            }
+
+            public void setMaxNumOfPlayers(Integer i_MaxNumOfPlayers) {
+                this.m_MaxNumOfPlayers = i_MaxNumOfPlayers;
+            }
+
+            public void setTurnLimit(Integer i_TurnLimit) {
+                this.m_TurnLimit = i_TurnLimit;
+            }
+        }
+
     }
-
-    class GameInfo{
-        private String m_GameCreator;
-        private Integer m_MaxNumOfPlayers;
-        private Integer m_CurrentNumOfPlayers;
-        private Boolean m_IsGameRunning;
-        private String m_BoardSize;
-        private Integer m_TurnLimit;
-
-        public Boolean geIsGameRunning() {
-            return m_IsGameRunning;
-        }
-
-        public Integer getCurrentNumOfPlayers() {
-            return m_CurrentNumOfPlayers;
-        }
-
-        public Integer getMaxNumOfPlayers() {
-            return m_MaxNumOfPlayers;
-        }
-
-        public Integer getTurnLimit() {
-            return m_TurnLimit;
-        }
-
-        public String getBoardSize() {
-            return m_BoardSize;
-        }
-
-        public String getGameCreator() {
-            return m_GameCreator;
-        }
-
-        public void setIsGameRunning(Boolean i_IsGameRunning) {
-            m_IsGameRunning = i_IsGameRunning;
-        }
-
-        public void setBoardSize(Integer i_Rows, Integer i_Cols) {
-            m_BoardSize = i_Rows + " X " + i_Cols;
-        }
-
-        public void setCurrentNumOfPlayers(Integer i_CurrentNumOfPlayers) {
-            m_CurrentNumOfPlayers = i_CurrentNumOfPlayers;
-        }
-
-        public void setGameCreator(String i_GameCreator) {
-            this.m_GameCreator = i_GameCreator;
-        }
-
-        public void setMaxNumOfPlayers(Integer i_MaxNumOfPlayers) {
-            this.m_MaxNumOfPlayers = i_MaxNumOfPlayers;
-        }
-
-        public void setTurnLimit(Integer i_TurnLimit) {
-            this.m_TurnLimit = i_TurnLimit;
-        }
-    }
-
 }

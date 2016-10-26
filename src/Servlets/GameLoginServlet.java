@@ -42,14 +42,14 @@ public class GameLoginServlet extends HttpServlet {
                 //no username in session and no username in parameter -
                 //redirect back to the index page
                 //this return an HTTP code back to the browser telling it to load
-                //the given URL (in this case: "index.jsp")
+                //the given URL (in this case: "Login.jsp")
                 response.sendRedirect("Login.html");
             } else {
                 //normalize the username value
                 usernameFromParameter = usernameFromParameter.trim();
                 if (gameManager.m_OnlinePlayers.containsKey(usernameFromParameter)) {
                     String errorMessage = "Username " + usernameFromParameter + " already exists. Please enter a different username.";
-                    //username already exists, forward the request back to index.jsp
+                    //username already exists, forward the request back to Login.jsp
                     //with a parameter that indicates that an error should be displayed
                     request.setAttribute(Constants.USER_NAME_ERROR, errorMessage);
                     getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);

@@ -19,7 +19,7 @@
             <h1>
                 Welcome To Game Lobby
             </h1>
-            <button class="btn btn-danger" type="button" id="LogoutButton">
+            <button class="btn btn-danger" type="button" id="LogoutButton" onclick="location.href='LogoutServlet'">
                 Logout
             </button>
         </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-md-1">
         </div>
-        <div class="col-md-5" id="GameRoomTable">
+        <div class="col-md-5" id="GameRoomsTable">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -74,7 +74,7 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="GameRoomsTableBody">
                 <!--updated dynamic-->
                 </tbody>
             </table>
