@@ -8,6 +8,10 @@ function triggerAjaxGameRoomsContent() {
     setTimeout(ajaxGameRoomsContent, refreshRate);
 }
 
+function ajaxListsUpdate(){
+    ajaxUsersList();
+    triggerAjaxGameRoomsContent();
+}
 //activate the timer calls after the page is loaded
 $((function(){
 
@@ -15,10 +19,10 @@ $((function(){
     $.ajaxSetup({cache: false});
 
     //The users list is refreshed automatically every second
-    setInterval(ajaxUsersList, refreshRate);
+    setInterval(ajaxListsUpdate, refreshRate);
     //The chat content is refreshed only once (using a timeout) but
     //on each call it triggers another execution of itself later (1 second later)
-    triggerAjaxGameRoomsContent();
+    //triggerAjaxGameRoomsContent();
 }));
 
 function ajaxUsersList() {
@@ -53,19 +57,19 @@ function ajaxGameRoomsContent() {
 }
 
 function refreshGameRoomsList(gameRooms) {
-    //clear all current users
+    //clear all current gameRooms
     $("#GameRoomsTableBody").empty();
     var i=1;
 
-    $.each(gameRooms || [], function(index, gameRoom) {
-        console.log("Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value);
-        $('<tr>' + '<td>' + i + '<td>' + gameRoom.key + '</td>' + '<td>'+ gameRoom.value +'</td>' + '</tr>' ).appendTo($("#GameRoomsTableBody"));
+    $.each(gameRooms['GameRooms'] || [], function(index, gameRoom) {
+        console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
+        $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' + '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']  +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' ).appendTo($("#GameRoomsTableBody"));
         i++;
     });
 }
 
-function validateFileFormat(file,event) {
-    var ext = file.split(".");
+function validateFileFormat(i_File, event) {
+    var ext = i_File.split(".");
     ext = ext[ext.length-1].toLowerCase();
     var extensionsAllowed = "xml";
 
