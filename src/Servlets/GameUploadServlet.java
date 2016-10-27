@@ -1,10 +1,7 @@
 package Servlets;
 
 import Logic.GameManager;
-import Utils.GameLoadException;
-import Utils.JaxBGridlerClassGenerator;
-import Utils.ServletUtils;
-import Utils.SessionUtils;
+import Utils.*;
 import jaxb.GameDescriptor;
 
 import javax.servlet.ServletException;
@@ -39,22 +36,33 @@ public class GameUploadServlet extends HttpServlet {
             InputStream fileContentStream = fileContent.getInputStream();
             String usernameFromSession = SessionUtils.getUsername(request);
             try {
-                GameDescriptor gd = JaxBGridlerClassGenerator.FromStreamToObject(fileName, fileContentStream);
-                String title = gd.getDynamicMultiPlayers().getGametitle();
-                if (isGameExist(title)){
+                GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlStreamToObject(fileContentStream);
+                String gameTitle = gameDescriptor.getDynamicMultiPlayers().getGametitle();
+
+                if (isGameExist(gameTitle)){
                     throw new GameLoadException("Game already exists");
                 }
-                GameManager gameManager = ServletUtils.getGameManager(getServletContext());
 
-                //GameEntry gameEntry = new GameEntry(gd, usernameFromSession);
-                //addGameEntry(gameEntry);
-            } catch (GameLoadException gle) {
-                setError(response, gle.getMessage());
+                GameLoader loader = new GameLoader();
+                GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+                gameManager.addGameRoom(gameTitle, loader.loadGameRoom(gameDescriptor, usernameFromSession));
+            } catch (GameLoadException e) {
+                setError(response, e.getMessage());
             }
         }
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void setError(HttpServletResponse response, String i_message) {
+        
+    }
+
+    private boolean isGameExist(String i_GameTitle) {
+        GameManager gameManager = ServletUtils.getGameManager(getServletContext());
+
+        return gameManager.m_GameRooms.containsKey(i_GameTitle);
     }
 }
 
