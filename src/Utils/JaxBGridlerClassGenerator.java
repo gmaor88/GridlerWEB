@@ -6,6 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * Created by Maor Gershkovitch on 8/17/2016.
@@ -18,6 +19,15 @@ public class JaxBGridlerClassGenerator {
         JAXBContext jaxbContext = JAXBContext.newInstance(GameDescriptor.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         gameDescriptor = (GameDescriptor) jaxbUnmarshaller.unmarshal(file);
+
+        return gameDescriptor;
+    }
+
+    public static GameDescriptor FromXmlStreamToObject (InputStream i_DataStream) throws JAXBException{
+        GameDescriptor gameDescriptor = null;
+        JAXBContext jaxbContext = JAXBContext.newInstance(GameDescriptor.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        gameDescriptor = (GameDescriptor) jaxbUnmarshaller.unmarshal(i_DataStream);
 
         return gameDescriptor;
     }

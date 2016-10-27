@@ -2,6 +2,7 @@ package Utils;
 
 import Logic.GameBoard;
 import Logic.GamePlayer;
+import Logic.GameRoom;
 import Logic.Square;
 import javafx.util.Pair;
 import jaxb.GameDescriptor;
@@ -22,7 +23,7 @@ public class GameLoader {
         GameBoard board;
 
         //get basic data from xml and look for exceptions
-        if(!i_GameDescriptor.getGameType().equalsIgnoreCase("singleplayer") && !i_GameDescriptor.getGameType().equalsIgnoreCase("multiplayer")){
+        if(!i_GameDescriptor.getGameType().equalsIgnoreCase("dynamicmultiplayer")){
             throw new GameLoadException("Invalid game type format");
         }
 
@@ -82,6 +83,19 @@ public class GameLoader {
         }
 
         return board;
+    }
+
+    public GameRoom loadGameRoom(GameDescriptor i_GameDescriptor, String i_CreatorName) throws GameLoadException{
+        GameRoom gameRoom;
+        GameBoard board = loadBoard(i_GameDescriptor);
+        Integer maxNumberOfPlayers, maxNumberOfTurns;
+
+        maxNumberOfPlayers = Integer.parseInt(i_GameDescriptor.getDynamicMultiPlayers().getTotalPlayers());
+        maxNumberOfTurns = Integer.parseInt(i_GameDescriptor.getDynamicMultiPlayers().getTotalmoves());
+
+        gameRoom = new GameRoom(board, maxNumberOfPlayers, maxNumberOfTurns, i_CreatorName);
+
+        return gameRoom;
     }
 
     public ArrayList<GamePlayer> loadPlayer(GameDescriptor i_GameDescriptor) throws GameLoadException{

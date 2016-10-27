@@ -38,4 +38,8 @@ public class GameManager {
 
         return result;
     }
+
+    public void addGameRoom(String i_GameRoomName, GameRoom i_GameRoom){
+        m_GameRooms.put(i_GameRoomName, i_GameRoom);
+    }
 }
