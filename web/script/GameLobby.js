@@ -81,7 +81,7 @@ function validateFileFormat(file,event) {
         formData.append(file.name, file);
         if (file != null) {
             $.ajax({
-                url: GAME_DATABASE_URL,
+                url: "GameUploadServlet",
                 contentType: false,
                 processData: false,
                 data: formData,

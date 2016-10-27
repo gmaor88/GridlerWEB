@@ -2,6 +2,7 @@ package Servlets;
 
 import Logic.GameManager;
 import Utils.*;
+import com.google.gson.Gson;
 import jaxb.GameDescriptor;
 
 import javax.servlet.ServletException;
@@ -18,14 +19,14 @@ import java.util.Collection;
 /**
  * Created by Maor Gershkovitch on 10/27/2016.
  */
-@WebServlet(name = "GameUploadServlet")
+@WebServlet(name = "GameUploadServlet", urlPatterns = "/GameUploadServlet")
 public class GameUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response){
@@ -55,14 +56,31 @@ public class GameUploadServlet extends HttpServlet {
         }
     }
 
-    private void setError(HttpServletResponse response, String i_message) {
-        
+    private void setError(HttpServletResponse response, String i_Message) {
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            Gson gson = new Gson();
+            ErrorResponse errorResponse = new ErrorResponse(i_Message);
+            String json = gson.toJson(errorResponse);
+            out.println(json);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isGameExist(String i_GameTitle) {
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
 
         return gameManager.m_GameRooms.containsKey(i_GameTitle);
+    }
+
+    class ErrorResponse{
+        private final String errorText;
+
+        public ErrorResponse(String i_Message){
+            errorText = i_Message;
+        }
     }
 }
 
