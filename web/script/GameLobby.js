@@ -64,11 +64,40 @@ function refreshGameRoomsList(gameRooms) {
     });
 }
 
-/*$('#LogoutButton').click(function () {
-    $.ajax({
-        url: "LogoutServlet",
-        success: function () {}
-    })
-})*/
+function validateFileFormat(file,event) {
+    var ext = file.split(".");
+    ext = ext[ext.length-1].toLowerCase();
+    var extensionsAllowed = "xml";
 
+    if (extensionsAllowed != ext) {
+        $('#errorMsg').text("Wrong extension type! It has to be xml.");
+        $('#fileRequested').val("");
+    }
+    else{
+        $('#errorMsg').text("");
+        var input = $(event.target);
+        var formData = new FormData();
+        var file = event.target.files[0];
+        formData.append(file.name, file);
+        if (file != null) {
+            $.ajax({
+                url: GAME_DATABASE_URL,
+                contentType: false,
+                processData: false,
+                data: formData,
+                type: 'POST',
+                success: function() {
+                    $("#errorMsg").empty();
+                    refreshGameRoomsList();
+                },
+                error: function (xhr, status, error) {
+                    if (xhr.status === 400) {
+                        $('#errorMsg').text(xhr.getResponseHeader("errorText"));
+                    }
+                }
+            });
+            input.replaceWith(input.val(""));
+        }
+    }
+}
 

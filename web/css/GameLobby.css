@@ -41,3 +41,9 @@ H1{
     cursor: inherit;
     display: block;
 }
+
+.errorMsg{
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+}

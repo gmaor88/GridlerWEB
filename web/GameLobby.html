@@ -90,14 +90,10 @@
     <div class="row">
         <div class="col-md-12" id="CreateNewGameArea">
             <label class="btn btn-default btn-file">
-                Browse <input type="file" style="display: none;">
+                Browse <input type="file" style="display: none;" id = "fileRequested" accept="*/xml" onChange="validateFileFormat(this.value, event)"/>
             </label>
-            Game name: <input type="text" id="UploadedGameName" value="" disabled>
-            <button class="btn btn-info" type="button" id="uploadGameButton">
-                Upload Game
-            </button>
         </div>
-        <p class="errorMsg" href="#" name="errorMsg"></p>
+        <p class="errorMsg" href="#" id="errorMsg"></p>
     </div>
 </div>
 </form>
