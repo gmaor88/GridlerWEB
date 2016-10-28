@@ -3,6 +3,7 @@
  */
 var chatVersion = 0;
 var refreshRate = 2000; //miliseconds
+var chosenGame;
 
 function triggerAjaxGameRoomsContent() {
     setTimeout(ajaxGameRoomsContent, refreshRate);
@@ -63,12 +64,24 @@ function refreshGameRoomsList(gameRooms) {
 
     $.each(gameRooms['GameRooms'] || [], function(index, gameRoom) {
         //console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
-        $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' +
+        var tr = $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' +
             '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']
             +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' ).click(function () {
             event.preventDefault();
-            $(this).toggleClass('diffColor');
-        }).appendTo($("#GameRoomsTableBody"));
+            $('#JoinGameButton').prop('disabled', gameRoom['CurrentNumOfPlayers'] >= gameRoom['MaxNumOfPlayers']);
+            if(gameRoom['GameName'] == chosenGame){
+                chosenGame = null;
+                $('#JoinGameButton').prop('disabled', true);
+            }
+            else{
+                chosenGame = gameRoom['GameName'];
+            }});
+
+        if(gameRoom['GameName'] == chosenGame){
+            tr.toggleClass('diffColor');
+        }
+
+        $("#JoinRoomsTableBody").append(tr);
         i++;
     });
 }

@@ -3,6 +3,7 @@ package Servlets;
 import Logic.GameManager;
 import Logic.GameRoom;
 import Utils.ServletUtils;
+import Utils.SessionUtils;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -35,7 +36,7 @@ public class GameRoomListServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             Gson gson = new Gson();
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
-            GameRoomsData gameRoomData = new GameRoomsData(gameManager.m_GameRooms);
+            GameRoomsData gameRoomData = new GameRoomsData(gameManager.m_GameRooms, SessionUtils.getChosenGame(request));
             String json = gson.toJson(gameRoomData);
             out.println(json);
             out.flush();
@@ -45,11 +46,13 @@ public class GameRoomListServlet extends HttpServlet {
     }
     class GameRoomsData{
         private final ArrayList<GameInfo> GameRooms = new ArrayList<>();
+        private final String ChosenGame;
 
-        public GameRoomsData(HashMap<String, GameRoom> i_GameRooms){
+        public GameRoomsData(HashMap<String, GameRoom> i_GameRooms, String i_ChosenGame){
             GameInfo gameInfo;
-            for(Map.Entry<String,GameRoom> entry : i_GameRooms.entrySet()){
 
+            ChosenGame = i_ChosenGame;
+            for(Map.Entry<String,GameRoom> entry : i_GameRooms.entrySet()){
                 gameInfo = new GameInfo();
                 gameInfo.setBoardSize(entry.getValue().getBoardHeight(), entry.getValue().getBoardWidth());
                 gameInfo.setCurrentNumOfPlayers(entry.getValue().getCurrentNumOfPlayers());

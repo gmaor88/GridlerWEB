@@ -21,7 +21,7 @@ H3{
     margin-top: 45px;
     margin-right: 40px;
 }
-#startButtonArea{
+#joinButtonArea{
     margin-top: 20px;
 }
 #CreateNewGameArea{
@@ -57,5 +57,9 @@ H3{
 }
 
 .diffColor{
+    background-color: orange;
+}
+
+#GameRoomsTableBody > tr:hover{
     background-color: orange;
 }
