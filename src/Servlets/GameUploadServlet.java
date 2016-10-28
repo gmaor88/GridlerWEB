@@ -2,7 +2,6 @@ package Servlets;
 
 import Logic.GameManager;
 import Utils.*;
-import com.google.gson.Gson;
 import jaxb.GameDescriptor;
 
 import javax.servlet.ServletException;
@@ -49,7 +48,7 @@ public class GameUploadServlet extends HttpServlet {
                 GameManager gameManager = ServletUtils.getGameManager(getServletContext());
                 gameManager.addGameRoom(gameTitle, loader.loadGameRoom(gameDescriptor, usernameFromSession));
             } catch (GameLoadException e) {
-                setError(response, e.getMessage());
+                setError(response, e.getErorMsg().toString());
             }
         }
         catch (Exception e){
@@ -58,13 +57,18 @@ public class GameUploadServlet extends HttpServlet {
     }
 
     private void setError(HttpServletResponse response, String i_Message) {
-        response.setContentType("application/json");
+        /*response.setContentType("application/json");*/
         try (PrintWriter out = response.getWriter()) {
+            response.setStatus(400);
+            out.print(i_Message);
+            out.flush();
+
+            /*response.sendError(HttpServletResponse.SC_BAD_REQUEST, i_Message);
             Gson gson = new Gson();
             ErrorResponse errorResponse = new ErrorResponse(i_Message);
             String json = gson.toJson(errorResponse);
             out.println(json);
-            out.flush();
+            out.flush();*/
         } catch (IOException e) {
             e.printStackTrace();
         }

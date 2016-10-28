@@ -3,18 +3,25 @@ H1{
     color: #0d8bc6;
     display: inline-block;
 }
+H3{
+    padding-top: 16px;
+    color: #0d8bc6;
+    display: inline-block;
+    margin-right: 20px;
+}
+
 #LobbyTables{
     margin-top: 20px;
 }
 #OnlinePlayersTableArea{
-    padding-top: 20px;
+    /*padding-top: 20px;*/
 }
 .btn-danger{
     float: right;
     margin-top: 45px;
     margin-right: 40px;
 }
-.btn-success{
+#startButtonArea{
     margin-top: 20px;
 }
 #CreateNewGameArea{
@@ -46,4 +53,5 @@ H1{
     font-size: 14px;
     color: red;
     font-weight: bold;
+    margin-top: 10px;
 }

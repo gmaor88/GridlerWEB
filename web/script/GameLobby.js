@@ -62,8 +62,11 @@ function refreshGameRoomsList(gameRooms) {
     var i=1;
 
     $.each(gameRooms['GameRooms'] || [], function(index, gameRoom) {
-        console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
-        $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' + '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']  +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' ).appendTo($("#GameRoomsTableBody"));
+        //console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
+        $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' +
+            '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']
+            +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' )
+            .appendTo($("#GameRoomsTableBody"));
         i++;
     });
 }
@@ -96,7 +99,7 @@ function validateFileFormat(i_File, event) {
                 },
                 error: function (xhr, status, error) {
                     if (xhr.status === 400) {
-                        $('#errorMsg').text(xhr.getResponseHeader("errorText"));
+                        $('#errorMsg').text(xhr.responseText);
                     }
                 }
             });
