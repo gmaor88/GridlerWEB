@@ -65,8 +65,10 @@ function refreshGameRoomsList(gameRooms) {
         //console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
         $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' +
             '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']
-            +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' )
-            .appendTo($("#GameRoomsTableBody"));
+            +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' ).click(function () {
+            event.preventDefault();
+            $(this).toggleClass('diffColor');
+        }).appendTo($("#GameRoomsTableBody"));
         i++;
     });
 }
@@ -107,4 +109,3 @@ function validateFileFormat(i_File, event) {
         }
     }
 }
-
