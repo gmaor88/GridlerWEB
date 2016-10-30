@@ -1,0 +1,47 @@
+H1{
+    padding-top: 20px;
+    color: #0d8bc6;
+    display: inline-block;
+}
+H3{
+    padding-top: 16px;
+    color: #0d8bc6;
+    margin-right: 20px;
+}
+.btn-danger{
+    float: right;
+    margin-top: 45px;
+    margin-right: 40px;
+}
+.label-info{
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.label-default{
+    font-size: 14px;
+}
+
+.TurnAndMoveButtons > button{
+    background: #b2dba1;
+}
+
+.TurnAndMoveButtons > button:focus{
+    background: #b2dba1;
+}
+
+.TurnAndMoveButtons > button:hover{
+    background: #b2dba1;
+}
+
+.TurnAndMoveButtons > button:disabled{
+    background: #b2dba1;
+}
+
+table{
+margin-top: 30px;
+}
+
+.btn-group{
+    margin-bottom: 20px;
+}

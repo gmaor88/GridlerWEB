@@ -1,5 +1,6 @@
 package Logic;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -72,5 +73,19 @@ public class GameRoom {
 
     public Integer getBoardHeight(){
         return f_Board.getBoardHeight();
+    }
+
+    public void addPlayerToGameRoom(GamePlayer i_PlayerToAdd) throws IOException{
+        if(m_Players.size() >= f_MaxNumOfPlayers || m_Players.contains(i_PlayerToAdd) || m_IsGameRunning){
+            throw new IOException("Unable to login to game room. (Game room is full/running or, player is already registered to it)");
+        }
+
+        i_PlayerToAdd.setGameBoard(f_Board);
+        i_PlayerToAdd.setMoveLimit(f_TurnLimit);
+        m_Players.add(i_PlayerToAdd);
+    }
+
+    public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove){
+        m_Players.remove(i_PlayerToRemove);
     }
 }

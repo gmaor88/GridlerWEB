@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GameRoom</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/GameRoom.css" rel="stylesheet">
+
+    <script src="script/jquery-3.1.1.min.js"></script>
+    <script src="script/bootstrap.min.js"></script>
+    <script src="script/GameRoom.js"></script>
+  </head>
+  <body>
+<form>
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 id="GameRoomName">
+			</h1>
+			<button type="button" class="btn btn-danger" id="QuitButton">
+				Quit
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3" id="GameDataArea">
+			<span class="label label-info">Players name: </span> <span class="label label-default" id="PlayersNameLabel">???</span><br>
+			<span class="label label-info">Moves left in turn: </span> <span class="label label-default" id="MovesLeftInTurnLabel">???</span><br>
+			<span class="label label-info">Turns left in game: </span> <span class="label label-default" id="TurnsLeftInGameLabel">???</span><br>
+			<span class="label label-info">Score: </span> <span class="label label-default" id="ScoreLabel">???</span><br>
+			<h3>
+				Set Move:
+			</h3>
+			<div class="btn-group" data-toggle="buttons">
+				<button class="btn btn-default" type="radio" id="BlackRadioButtonOption">
+					Black
+				</button>
+				<button class="btn btn-default" type="radio" id="ClearedRadioButtonOption">
+					Cleared
+				</button> 
+				<button class="btn btn-default" type="radio" id="UndefinedRadioButtonOption">
+					Undefined
+				</button>
+			</div>
+			<div class="TurnAndMoveButtons">
+				<button class="btn btn-default" type="button" id="MakeMoveButton" disabled>
+					Make Move
+				</button> 
+				<button class="btn btn-default" type="button" id ="EndTurnButton" disabled>
+					End Turn
+				</button>
+			</div>
+			<table class="table table-condensed table-striped">
+				<thead>
+				<tr>
+					<th>
+						#
+					</th>
+					<th>
+						Player's Name
+					</th>
+					<th>
+						Player Type
+					</th>
+				</tr>
+				</thead>
+				<tbody id="GamePlayersTableBody">
+				<!--updated dynamic-->
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-9" id="GameBoardArea">
+		</div>
+	</div>
+</div>
+</form>
+  </body>
+</html>

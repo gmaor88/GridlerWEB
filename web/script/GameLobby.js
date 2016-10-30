@@ -81,7 +81,7 @@ function refreshGameRoomsList(gameRooms) {
             tr.toggleClass('diffColor');
         }
 
-        $("#JoinRoomsTableBody").append(tr);
+        $("#GameRoomsTableBody").append(tr);
         i++;
     });
 }
@@ -121,4 +121,20 @@ function validateFileFormat(i_File, event) {
             input.replaceWith(input.val(""));
         }
     }
+}
+
+function joinGameButtonClick(event) {
+    $.ajax({
+        url: "JoinGameServlet",
+        data: {'game':chosenGame},
+        type: 'POST',
+        success: function Redirect() {
+            window.location="GameRoom.html";
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status === 400) {
+                $('#errorMsg').text(xhr.responseText);
+            }
+        }
+    });
 }

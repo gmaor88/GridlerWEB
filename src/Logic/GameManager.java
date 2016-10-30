@@ -2,6 +2,7 @@ package Logic;
 
 import javafx.util.Pair;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -41,5 +42,27 @@ public class GameManager {
 
     public void addGameRoom(String i_GameRoomName, GameRoom i_GameRoom){
         m_GameRooms.put(i_GameRoomName, i_GameRoom);
+    }
+
+    public GamePlayer getGamePlayerByName(String i_Name){
+        return m_OnlinePlayers.get(i_Name);
+    }
+
+    public GameRoom getGameRoomByName(String i_Name){
+        return m_GameRooms.get(i_Name);
+    }
+
+    public void addUserToGameRoom(String i_PlayerName, String i_GameRoomName) throws  IOException{
+        GamePlayer playerToAdd = m_OnlinePlayers.get(i_PlayerName);
+        GameRoom gameRoomRequested = m_GameRooms.get(i_GameRoomName);
+
+        gameRoomRequested.addPlayerToGameRoom(playerToAdd);
+    }
+
+    public void RemoveUserFromGameRoom(String i_PlayerName, String i_GameRoomName){
+        GamePlayer playerToRemove = m_OnlinePlayers.get(i_PlayerName);
+        GameRoom gameRoomRequested = m_GameRooms.get(i_GameRoomName);
+
+        gameRoomRequested.removePlayerFromGameRoom(playerToRemove);
     }
 }

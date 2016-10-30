@@ -62,13 +62,6 @@ public class GameUploadServlet extends HttpServlet {
             response.setStatus(400);
             out.print(i_Message);
             out.flush();
-
-            /*response.sendError(HttpServletResponse.SC_BAD_REQUEST, i_Message);
-            Gson gson = new Gson();
-            ErrorResponse errorResponse = new ErrorResponse(i_Message);
-            String json = gson.toJson(errorResponse);
-            out.println(json);
-            out.flush();*/
         } catch (IOException e) {
             e.printStackTrace();
         }
