@@ -65,4 +65,5 @@ public class GameManager {
 
         gameRoomRequested.removePlayerFromGameRoom(playerToRemove);
     }
+
 }

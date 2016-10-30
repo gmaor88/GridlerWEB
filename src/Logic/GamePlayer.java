@@ -31,6 +31,21 @@ public class GamePlayer {
         f_Name = i_Name;
     }
 
+    public void init(){
+        m_NumOfMovesMade = 0;
+        m_MoveList.clear();
+        m_NumOfRedoMade = 0;
+        m_TotalMovesMadeInGame = 0;
+        m_GameBoard = null;
+        m_NumOfUndoMade = 0;
+        m_RedoList.clear();
+        m_Score = 0;
+        m_Timer = 0;
+        m_TurnLimit = 0;
+        m_UndoList.clear();
+        m_TurnNumber = 0;
+    }
+
     public void incrementTime(){
         m_Timer++;
     }

@@ -1,7 +1,11 @@
 package Logic;
 
+import javafx.util.Pair;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by Maor Gershkovitch on 10/19/2016.
@@ -80,12 +84,23 @@ public class GameRoom {
             throw new IOException("Unable to login to game room. (Game room is full/running or, player is already registered to it)");
         }
 
+        i_PlayerToAdd.init();
         i_PlayerToAdd.setGameBoard(f_Board);
         i_PlayerToAdd.setMoveLimit(f_TurnLimit);
         m_Players.add(i_PlayerToAdd);
     }
 
     public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove){
-        m_Players.remove(i_PlayerToRemove);
+            m_Players.remove(i_PlayerToRemove);
+    }
+
+    public ArrayList<Pair<String,String>> getPlayersNamesAndIsHuman() {
+        ArrayList<Pair<String,String>> playersToReturn = new ArrayList<>();
+
+        for(Map.Entry<String,GamePlayer> entry: m_OnlinePlayers.entrySet()){
+            playersToReturn.add(new Pair<>(entry.getKey(),playerDesignation(entry.getValue())));
+        }
+
+        return playersToReturn;
     }
 }
