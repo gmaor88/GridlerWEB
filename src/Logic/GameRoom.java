@@ -109,6 +109,8 @@ public class GameRoom {
         m_Players.add(i_PlayerToAdd);
     }
 
+    public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
+
     ///For GameRoomPlayerListServlet ////
     class GameRoomData{
         private final ArrayList<PlayerInfo> players = new ArrayList<>();
