@@ -17,6 +17,8 @@ public class GameRoom {
     private Boolean m_IsGameRunning = false;
     private final Integer f_TurnLimit;
     private final String f_CreatorName;
+    private GamePlayer m_CurrentPlayer;
+    private Integer m_Index = 0;
 
     public GameRoom(GameBoard i_Board, Integer i_MaxNumOfPlayers, Integer i_TurnLimit, String i_CreatorName){
         f_MaxNumOfPlayers = i_MaxNumOfPlayers;
@@ -36,6 +38,7 @@ public class GameRoom {
 
         i_Player.setGameBoard(f_Board);
         m_Players.addLast(i_Player);
+        m_CurrentPlayer = m_Players.getFirst();
     }
 
     public void DeletePlayerFromGameRoom(String i_PlayerToDelete){
@@ -45,6 +48,15 @@ public class GameRoom {
                 return;
             }
         }
+    }
+
+    public void EndTurn(){
+        m_Index++;
+        if(m_Index >= m_Players.size()){
+            m_Index = 0;
+        }
+
+        m_CurrentPlayer = m_Players.get(m_Index);
     }
 
     public Boolean getIsGameRunning() {
@@ -71,12 +83,22 @@ public class GameRoom {
         return m_Players.size();
     }
 
+    public GameRoomData getGameRoomData() {
+        GameRoomData gameRoomData = new GameRoomData(m_Players, m_CurrentPlayer.getName());
+
+        return gameRoomData;
+    }
+
     public Integer getBoardWidth(){
         return f_Board.getBoardWidth();
     }
 
     public Integer getBoardHeight(){
         return f_Board.getBoardHeight();
+    }
+
+    public String getCurrentPlayerName(){
+        return m_CurrentPlayer.getName();
     }
 
     public void addPlayerToGameRoom(GamePlayer i_PlayerToAdd) throws IOException{
@@ -102,5 +124,46 @@ public class GameRoom {
         }
 
         return playersToReturn;
+    }
+
+    ///For GameRoomPlayerListServlet ////
+    class GameRoomData{
+        private final ArrayList<PlayerInfo> players = new ArrayList<>();
+        private final String CurrentPlayer;
+
+        public GameRoomData(LinkedList<GamePlayer> i_PlayerInGameRoom, String i_CurrentPlayer){
+            PlayerInfo playerInfo;
+
+            CurrentPlayer = i_CurrentPlayer;
+            for(GamePlayer player : i_PlayerInGameRoom){
+                playerInfo = new PlayerInfo();
+                playerInfo.setIsHuman(player.getIsHuman());
+                playerInfo.setPlayerName(player.getName());
+                playerInfo.setScore(player.getTurnLimit());
+                players.add(playerInfo);
+            }
+        }
+
+        class PlayerInfo{
+            private String Name;
+            private Integer Score;
+            private Boolean IsHuman;
+
+
+
+            public void setPlayerName(String i_PlayerName) {
+                this.Name = i_PlayerName;
+            }
+
+            public void setScore(Integer i_Score) {
+                this.Score = i_Score;
+            }
+
+            public void setIsHuman(Boolean i_IsHuman) {
+                this.IsHuman = i_IsHuman;
+            }
+
+        }
+
     }
 }
