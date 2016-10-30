@@ -17,8 +17,8 @@ import java.io.PrintWriter;
 /**
  * Created by Maor Gershkovitch on 10/30/2016.
  */
-@WebServlet(name = "GameRoomPlayersListServlet", urlPatterns = "/GameRoomPlayersListServlet")
-public class GameRoomPlayersListServlet extends HttpServlet {
+@WebServlet(name = "PlayerDataServlet", urlPatterns = "/PlayerDataServlet")
+public class PlayerDataServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -33,7 +33,8 @@ public class GameRoomPlayersListServlet extends HttpServlet {
             Gson gson = new Gson();
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoom gameRoom = gameManager.getGameRoomByName(SessionUtils.getChosenGame(request));
-            String json = gson.toJson(gameRoom.getGameRoomData());
+            String playerName = SessionUtils.getUsername(request);
+            String json = gson.toJson(gameRoom.getGamePlayerData(playerName));
             out.println(json);
             out.flush();
         } catch (IOException e) {

@@ -54,6 +54,7 @@ public class GamePlayer {
         return m_Timer;
     }
 
+
     public void incrementNumberOfMoves(){
         m_NumOfMovesMade++;
         m_TotalMovesMadeInGame++;

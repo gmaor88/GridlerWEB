@@ -81,7 +81,13 @@ public class GameRoom {
     }
 
     public GameRoomData getGameRoomData() {
-        GameRoomData gameRoomData = new GameRoomData(m_Players, m_CurrentPlayer.getName());
+        String currentPlayerName = "";
+
+        if(m_CurrentPlayer != null){
+            currentPlayerName = m_CurrentPlayer.getName();
+        }
+
+        GameRoomData gameRoomData = new GameRoomData(m_Players, currentPlayerName);
 
         return gameRoomData;
     }
@@ -111,12 +117,30 @@ public class GameRoom {
 
     public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
 
+    private GamePlayer getGamePlayerByName(String i_PlayerName){
+        GamePlayer result = null;
+
+        for (GamePlayer player : m_Players){
+            if(player.getName().equalsIgnoreCase(i_PlayerName)){
+                result = player;
+            }
+        }
+
+        return result;
+    }
+
+    public PlayerData getGamePlayerData(String i_PlayerName) {
+        PlayerData playerData = new PlayerData(getGamePlayerByName(i_PlayerName));
+
+        return playerData;
+    }
+
     ///For GameRoomPlayerListServlet ////
     class GameRoomData{
         private final ArrayList<PlayerInfo> players = new ArrayList<>();
         private final String CurrentPlayer;
 
-        public GameRoomData(LinkedList<GamePlayer> i_PlayerInGameRoom, String i_CurrentPlayer){
+         GameRoomData(LinkedList<GamePlayer> i_PlayerInGameRoom, String i_CurrentPlayer){
             PlayerInfo playerInfo;
 
             CurrentPlayer = i_CurrentPlayer;
@@ -124,31 +148,50 @@ public class GameRoom {
                 playerInfo = new PlayerInfo();
                 playerInfo.setIsHuman(player.getIsHuman());
                 playerInfo.setPlayerName(player.getName());
-                playerInfo.setScore(player.getTurnLimit());
+                playerInfo.setScore(player.getScore());
                 players.add(playerInfo);
             }
         }
 
         class PlayerInfo{
             private String Name;
-            private Integer Score;
-            private Boolean IsHuman;
+            private Double Score;
+            private String PlayerType;
 
 
 
-            public void setPlayerName(String i_PlayerName) {
+            void setPlayerName(String i_PlayerName) {
                 this.Name = i_PlayerName;
             }
 
-            public void setScore(Integer i_Score) {
+            void setScore(Double i_Score) {
                 this.Score = i_Score;
             }
 
-            public void setIsHuman(Boolean i_IsHuman) {
-                this.IsHuman = i_IsHuman;
+            void setIsHuman(Boolean i_IsHuman) {
+                PlayerType = "Human";
+
+                if(!i_IsHuman){
+                    PlayerType = "PC";
+                }
             }
 
         }
 
+    }
+
+    ///For PlayerDataServlet ////
+    class PlayerData{
+        private String PlayerName;
+        private Double Score;
+        private Integer MovesLeftInTurn;
+        private Integer TurnLeftInGame;
+
+        public PlayerData(GamePlayer i_Player){
+            PlayerName = i_Player.getName();
+            Score = i_Player.getScore();
+            TurnLeftInGame = i_Player.getTurnLimit() - i_Player.getTurnNumber();
+            MovesLeftInTurn = 2 - i_Player.getNumOfMovesMade();
+        }
     }
 }
