@@ -40,7 +40,7 @@ public class GameUploadServlet extends HttpServlet {
                 GameDescriptor gameDescriptor = JaxBGridlerClassGenerator.FromXmlStreamToObject(fileContentStream);
                 String gameTitle = gameDescriptor.getDynamicMultiPlayers().getGametitle();
 
-                if (isGameExist(gameTitle)){
+                if (isGameExist(gameTitle) || gameTitle.equalsIgnoreCase("")){
                     throw new GameLoadException("Game already exists");
                 }
 

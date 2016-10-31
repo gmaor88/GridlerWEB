@@ -93,6 +93,10 @@ public class GameLoader {
         maxNumberOfPlayers = Integer.parseInt(i_GameDescriptor.getDynamicMultiPlayers().getTotalPlayers());
         maxNumberOfTurns = Integer.parseInt(i_GameDescriptor.getDynamicMultiPlayers().getTotalmoves());
 
+        if(maxNumberOfPlayers < 1 || maxNumberOfTurns < 1){
+            throw new GameLoadException("Invalid number of players or turns");
+        }
+
         gameRoom = new GameRoom(board, maxNumberOfPlayers, maxNumberOfTurns, i_CreatorName);
 
         return gameRoom;
