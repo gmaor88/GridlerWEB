@@ -75,11 +75,22 @@ margin-top: 30px;
 }
 
 .BoardRow{
-    display: inline-block;
     margin-bottom: 1px;
 }
 
+.BoardCol{
+    margin-bottom: 1px;
+    display: inline-block;
+}
+
 .gridSquare{
+    display: inline-block;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    margin-right: 1px;
+}
+
+.gridSquare2{
     margin-bottom: 1px;
     margin-top: 1px;
     margin-right: 1px;
@@ -91,12 +102,14 @@ margin-top: 30px;
     padding: 4px;
 }
 
-.BoardButton > button:checked{
+.buttonSelected{
     border: 4px #3da812;
 }
 
-.buttonSelected{
-    border: 4px #3da812;
+.incompleteBlock{
+    height: 25px;
+    width: 25px;
+    padding: 4px;
 }
 
 .Undefined{

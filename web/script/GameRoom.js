@@ -3,6 +3,8 @@
  */
 var refreshRate = 2000; //miliseconds
 var ButtonsSelected = [];
+var HorizontalBlocks = [];
+var VerticalBlocks =[];
 
 $(function () {
     $.ajaxSetup({cache: false});
@@ -21,42 +23,59 @@ function getAndShowGameBoard() {
         url: "GetBoardServlet",
         dataType: 'json',
         success: function(gameBoardData) {
-            buildBoard(gameBoardData['Height'], gameBoardData['Width']);
+            buildBoard(gameBoardData['Height'], gameBoardData['Width'],gameBoardData['HorizontalSlices'],gameBoardData['VerticalSlices']);
         }
     });
 }
 
-function buildBoard(height,width){
+function buildBoard(height,width,horizontalSlices,verticalSlices){
     createAndNullButtonsSelectedArray(height, width);
+    createAndNullLabelSlicesArrays(height,horizontalSlices, width,verticalSlices);
     var board = $('#GameBoardArea');
     for(var i = 0; i < height; i++){
         var row = document.createElement("div");
-        //row.className = "row";
         row.className = "BoardRow";
         for(var x = 0; x < width; x++){
             var cell = document.createElement("div");
             cell.className = "gridSquare";
             var button = document.createElement("button");
-            const j = i;
-            const k = x;
+            const j = i; //for the click
+            const k = x; //for the click
             button.addEventListener("click",function () {
                 event.preventDefault();
                 if(ButtonsSelected[j][k] == null) {
                     ButtonsSelected[j][k] = this;
-                    //this.toggleClass('buttonSelected');
                 }
                 else{
                     ButtonsSelected[j][k] = null;
-                    //this.removeClass('buttonSelected');
                 }
                 this.classList.toggle('buttonSelected');
             });
             button.className = 'BoardButton';
             cell.appendChild(button);
-            row.appendChild(cell);
+            row.append(cell);
         }
+        $.each(horizontalSlices[i] || [], function(index, block) {
+            cell = document.createElement("div");
+            cell.className = "gridSquare";
+            cell.appendChild(HorizontalBlocks[i][index]);
+            row.appendChild(cell);
+        });
         board.append(row);
     }
+
+
+        $.each(verticalSlices || [], function (index, block) {
+            var col = document.createElement("div");
+            col.className = "BoardCol";
+            $.each(verticalSlices[index] || [], function (jndex, Block) {
+                cell = document.createElement("div");
+                cell.className = "gridSquare2";
+                cell.appendChild(VerticalBlocks[index][jndex]);
+                col.appendChild(cell);
+            });
+            board.append(col);
+        });
     //document.getElementById("code").innerText = board.innerHTML;
 }
 
@@ -68,6 +87,25 @@ function createAndNullButtonsSelectedArray(Height, Width) {
         }
 
         ButtonsSelected.push(innerArray);
+    }
+}
+
+function createAndNullLabelSlicesArrays(height,horizontalSlices, width,verticalSlices) {
+    createAndNullLabelSlices(height, horizontalSlices, HorizontalBlocks);
+    createAndNullLabelSlices(width, verticalSlices, VerticalBlocks);
+}
+
+function createAndNullLabelSlices(length,Slices, ArrayToInsert){
+    for(var i = 0; i < length; i++) {
+        var innerArray = [];
+        $.each(Slices[i] || [],function (index,block) {
+            var Label = document.createElement("label");
+            Label.innerText = block['f_Size'];
+            Label.className = "incompleteBlock";
+            innerArray.push(Label);
+        });
+
+        ArrayToInsert.push(innerArray);
     }
 }
 
