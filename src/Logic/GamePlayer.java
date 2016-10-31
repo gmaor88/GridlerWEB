@@ -310,7 +310,7 @@ public class GamePlayer {
         return m_TotalMovesMadeInGame;
     }
 
-    public BoardData getGameBoardData(){
+    BoardData getGameBoardData(){
         return new BoardData();
     }
 
@@ -319,12 +319,37 @@ public class GamePlayer {
         private final Integer Width;
         private final Integer Height;
         private Square[][] Board;
+        private ArrayList<ArrayList<Block>> VerticalSlices;
+        private ArrayList<ArrayList<Block>> HorizontalSlices;
 
-        public BoardData(){
+         BoardData(){
             Width = m_GameBoard.getBoardWidth();
             Height = m_GameBoard.getBoardHeight();
             Board = new Square[Height][Width];
+            VerticalSlices = new ArrayList<>();
+            m_GameBoard.initializeSlicesArray(VerticalSlices, Width);
+            HorizontalSlices = new ArrayList<>();
+            m_GameBoard.initializeSlicesArray(HorizontalSlices, Height);
             fillBoard();
+             fillSlices();
+        }
+
+        private void fillSlices() {
+            for(int i = 0; i < Width; i++){
+                fillSlice(VerticalSlices.get(i), m_GameBoard.getVerticalSlice(i));
+            }
+
+            for(int i = 0; i < Height; i++){
+                fillSlice(HorizontalSlices.get(i), m_GameBoard.getHorizontalSlice(i));
+            }
+        }
+
+        private void fillSlice(ArrayList<Block> i_Blocks, ArrayList<Block> i_VerticalSlice) {
+            for(Block block: i_VerticalSlice){
+                Block fillBlock = new Block(block.getSize());
+                fillBlock.setMarked(block.isMarked());
+                i_Blocks.add(fillBlock);
+            }
         }
 
         private void fillBoard() {

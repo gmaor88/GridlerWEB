@@ -85,7 +85,7 @@ public class GameBoard {
 //        return m_HorizontalSlices;
 //    }
 
-    private void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices, int i_Size) {
+     void initializeSlicesArray(ArrayList<ArrayList<Block>> i_Slices, int i_Size) {
         for(int i = 0; i < i_Size; i++){
             i_Slices.add(new ArrayList<Block>());
         }
