@@ -8,12 +8,22 @@ $(function () {
     $.ajaxSetup({cache: false});
     setGameRoomName();
     setInterval(ajaxUpdate, refreshRate);
-    ajaxPlayerInfoUpdate()
+    ajaxPlayerInfoUpdate();
+    getAndShowGameBoard();
 })
 
 function ajaxPlayerInfoUpdate() {
     ajaxPlayerData();
-    //ajaxGameBoard();
+}
+
+function getAndShowGameBoard() {
+    $.ajax({
+        url: "GetBoardServlet",
+        dataType: 'json',
+        success: function(gameBoardData) {
+            buildBoard(gameBoardData['Height'], gameBoardData['Width']);
+        }
+    });
 }
 
 function buildBoard(height,width){
@@ -21,26 +31,31 @@ function buildBoard(height,width){
     var board = $('#GameBoardArea');
     for(var i = 0; i < height; i++){
         var row = document.createElement("div");
-        row.className = "row";
+        //row.className = "row";
+        row.className = "BoardRow";
         for(var x = 0; x < width; x++){
             var cell = document.createElement("div");
-            cell.className = "gridsquare";
-            var button = $('<button>').click(function () {
-                if(ButtonsSelected[i][x] == null) {
-                    ButtonsSelected[i][x] = this;
+            cell.className = "gridSquare";
+            var button = document.createElement("button");
+            const j = i;
+            const k = x;
+            button.addEventListener("click",function () {
+                event.preventDefault();
+                if(ButtonsSelected[j][k] == null) {
+                    ButtonsSelected[j][k] = this;
                     //this.toggleClass('buttonSelected');
                 }
                 else{
-                    ButtonsSelected[i][x] = null;
+                    ButtonsSelected[j][k] = null;
                     //this.removeClass('buttonSelected');
                 }
-                this.toggleClass('buttonSelected');
-            })
-            button.addClass('Undefined');
+                this.classList.toggle('buttonSelected');
+            });
+            button.className = 'BoardButton';
             cell.appendChild(button);
             row.appendChild(cell);
         }
-        board.appendChild(row);
+        board.append(row);
     }
     //document.getElementById("code").innerText = board.innerHTML;
 }
@@ -55,8 +70,6 @@ function createAndNullButtonsSelectedArray(Height, Width) {
         ButtonsSelected.push(innerArray);
     }
 }
-
-alert(outterArray);
 
 function ajaxPlayerData() {
     $.ajax({

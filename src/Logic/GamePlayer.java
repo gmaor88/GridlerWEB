@@ -315,7 +315,7 @@ public class GamePlayer {
     }
 
     ///For getBoardServlet/////
-    class BoardData{
+    public class BoardData{
         private final Integer Width;
         private final Integer Height;
         private Square[][] Board;
@@ -330,7 +330,9 @@ public class GamePlayer {
         private void fillBoard() {
             for(int i = 0; i < Height; i++){
                 for(int j = 0; j < Width; j++){
+                    Board[i][j] = new Square();
                     Board[i][j].setCurrentSquareSign(m_GameBoard.getSquare(i,j).getCurrentSquareSign());
+                    //Board[i][j] = m_GameBoard.getSquare(i,j);
                 }
             }
         }
