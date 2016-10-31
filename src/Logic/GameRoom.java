@@ -135,6 +135,10 @@ public class GameRoom {
         return playerData;
     }
 
+    public GamePlayer.BoardData getGamePlayerBoardData(String i_PlayerName){
+        return getGamePlayerByName(i_PlayerName).getGameBoardData();
+    }
+
     ///For GameRoomPlayerListServlet ////
     class GameRoomData{
         private final ArrayList<PlayerInfo> players = new ArrayList<>();

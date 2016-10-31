@@ -309,4 +309,30 @@ public class GamePlayer {
     public Integer getTotalMovesMadeInGame() {
         return m_TotalMovesMadeInGame;
     }
+
+    public BoardData getGameBoardData(){
+        return new BoardData();
+    }
+
+    ///For getBoardServlet/////
+    class BoardData{
+        private final Integer Width;
+        private final Integer Height;
+        private Square[][] Board;
+
+        public BoardData(){
+            Width = m_GameBoard.getBoardWidth();
+            Height = m_GameBoard.getBoardHeight();
+            Board = new Square[Height][Width];
+            fillBoard();
+        }
+
+        private void fillBoard() {
+            for(int i = 0; i < Height; i++){
+                for(int j = 0; j < Width; j++){
+                    Board[i][j].setCurrentSquareSign(m_GameBoard.getSquare(i,j).getCurrentSquareSign());
+                }
+            }
+        }
+    }
 }
