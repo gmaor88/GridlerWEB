@@ -37,6 +37,25 @@ H3{
 .TurnAndMoveButtons > button:disabled{
     background: #b2dba1;
 }
+.UndoRedoButtons{
+    margin-bottom: 10px;
+}
+
+.UndoRedoButtons > button{
+    background: #f7ecb5;
+}
+
+.UndoRedoButtons > button:focus{
+    background: #f7ecb5;
+}
+
+.UndoRedoButtons > button:hover{
+    background: #f7ecb5;
+}
+
+.UndoRedoButtons > button:disabled{
+    background: #f7ecb5;
+}
 
 table{
 margin-top: 30px;
