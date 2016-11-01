@@ -2,6 +2,8 @@ package Logic;
 
 
 
+import Utils.Tools;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -190,6 +192,36 @@ public class GamePlayer {
         insertMoveToMoveList(i_Move);
         m_RedoList.clear();
         m_Score = m_GameBoard.getBoardCompletionPercentage();
+    }
+
+    public void preformPlayerMove(String i_Move, String i_Sign){
+        Square.eSquareSign sign = Square.eSquareSign.UNDEFINED;
+        MoveSet moveSet = new MoveSet("");
+        Integer height = 0,width = 0,i;
+
+        if(i_Sign.equalsIgnoreCase("BLACKED")){
+            sign = Square.eSquareSign.BLACKED;
+        }
+        else if(i_Sign.equalsIgnoreCase("CLEARED")){
+            sign = Square.eSquareSign.CLEARED;
+        }
+
+        for(String str: i_Move.split(".")){
+            i = 0;
+            for(String cord: str.split(",")){
+                if(i == 0){
+                    height = Integer.parseInt(cord);
+                    i++;
+                }
+                else{
+                    width = Integer.parseInt(cord);
+                    i = 0;
+                }
+            }
+            moveSet.AddNewPoint(new Point(height,width,sign));
+        }
+
+        preformPlayerMove(moveSet);
     }
 
     public void undo() {
