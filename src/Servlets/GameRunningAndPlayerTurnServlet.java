@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 /**
  * Created by Maor Gershkovitch on 11/1/2016.
  */
-@WebServlet(name = "GameRunningAndPlayerTurnServlet")
+@WebServlet(name = "GameRunningAndPlayerTurnServlet", urlPatterns = "/GameRunningAndPlayerTurnServlet")
 public class GameRunningAndPlayerTurnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);

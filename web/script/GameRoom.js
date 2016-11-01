@@ -37,14 +37,18 @@ function updateGame() {
 function updateBoard(gameBoardData) {
    $.each(gameBoardData['Board'] || [],function (index,row) {
         $.each(row || [],function (jndex, square) {
+            BoardButtons.className = "BoardButton";
             if(square['m_CurrentSquareSign'] == "BLACKED"){
-                BoardButtons[index][jndex].className = "BLACKED";
+                BoardButtons[index][jndex].classList.add("UNDEFINED");
+                //BoardButtons[index][jndex].className += "BLACKED";
             }
             else if(square['m_CurrentSquareSign'] == "CLEARED"){
-                BoardButtons[index][jndex].className = "CLEARED";
+                BoardButtons[index][jndex].classList.add("CLEARED");
+                //BoardButtons[index][jndex].className += "CLEARED";
             }
             else{
-                BoardButtons[index][jndex].className = "UNDEFINED";
+                BoardButtons[index][jndex].classList.add("UNDEFINED");
+                //BoardButtons[index][jndex].className += "UNDEFINED";
             }
         })
     })
@@ -83,7 +87,9 @@ function buildBoard(height,width,horizontalSlices,verticalSlices){
                 }
                 this.classList.toggle('buttonSelected');
             });
-            button.className = 'BoardButton';
+            //button.className = "BoardButton";
+            //button.className += "UNDEFINED";
+            button.classList.add("BoardButton","UNDEFINED");
             BoardButtons[i][x] = button;
             cell.appendChild(button);
             row.append(cell);
@@ -215,6 +221,7 @@ function getIfGameRunningAndIfMyTurn() {
     $.ajax({
         url: "GameRunningAndPlayerTurnServlet",
         dataType: 'json',
+
         success: function (answer) {
             if(answer.value == true){
                 if(IsGameRunning == false){
