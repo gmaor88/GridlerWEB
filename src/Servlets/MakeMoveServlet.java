@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 /**
  * Created by Maor Gershkovitch on 11/1/2016.
  */
-@WebServlet(name = "MakeMoveServlet")
+@WebServlet(name = "MakeMoveServlet", urlPatterns = "/MakeMoveServlet")
 public class MakeMoveServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);

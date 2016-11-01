@@ -133,6 +133,7 @@ public class GameRoom {
         for (GamePlayer player : m_Players){
             if(player.getName().equalsIgnoreCase(i_PlayerName)){
                 result = player;
+                break;
             }
         }
 

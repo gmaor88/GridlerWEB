@@ -2,8 +2,6 @@ package Logic;
 
 
 
-import Utils.Tools;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -206,7 +204,7 @@ public class GamePlayer {
             sign = Square.eSquareSign.CLEARED;
         }
 
-        for(String str: i_Move.split(".")){
+        for(String str: i_Move.split("-")){
             i = 0;
             for(String cord: str.split(",")){
                 if(i == 0){

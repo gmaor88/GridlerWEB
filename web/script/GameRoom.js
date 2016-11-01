@@ -39,7 +39,7 @@ function updateBoard(gameBoardData) {
         $.each(row || [],function (jndex, square) {
             BoardButtons.className = "BoardButton";
             if(square['m_CurrentSquareSign'] == "BLACKED"){
-                BoardButtons[index][jndex].classList.add("UNDEFINED");
+                BoardButtons[index][jndex].classList.add("BLACKED");
                 //BoardButtons[index][jndex].className += "BLACKED";
             }
             else if(square['m_CurrentSquareSign'] == "CLEARED"){
@@ -156,16 +156,18 @@ function createAndNullLabelSlices(length,Slices, ArrayToInsert){
 function initButtonSelectedArray() {
     $.each(ButtonsSelected || [],function (index, buttons) {
         $.each(buttons || [],function (jndex, slot) {
+            if(slot != null){
+                slot.classList.toggle('buttonSelected');
+            }
             slot = null;
         })
     })
 }
 
 function makeMoveButtonClicked() {
-    var choice = $('.radioGroup:checked').value;
-    var data = "";
-    //data = choice + "|";
-    prepDataToSend(data);
+    var choice = $("input[name='radioGroup']:checked").val();
+    var data;
+    data = prepDataToSend();
     $.ajax({
         url: "MakeMoveServlet",
         data: {'choice':choice, 'data':data},
@@ -181,7 +183,7 @@ function makeMoveButtonClicked() {
 
 function endTurnButtonClicked() {
     $.ajax({
-        url: "MakeMoveServlet",
+        url: "EndTurnServlet",
         type: 'POST',
         success: function(){
             $('#EndTurnButton').prop("disabled", true);
@@ -192,14 +194,17 @@ function endTurnButtonClicked() {
     });
 }
 
-function prepDataToSend(data) {
+function prepDataToSend() {
+    var data = "";
     $.each(ButtonsSelected || [],function (index,Buttons) {
         $.each(Buttons || [],function (jndex, Button) {
             if(Button != null) {
-                data += index + "," + jndex + ".";
+                data += index + "," + jndex + "-";
             }
         })
-    })
+    });
+    data = data.substring(0, data.length - 1);
+    return data;
 }
 
 function ajaxPlayerData() {
@@ -265,6 +270,7 @@ function refreshPlayerData(playerData) {
     $('#ScoreLabel').text(playerData['Score']);
     $('#MovesLeftInTurnLabel').text(playerData['MovesLeftInTurn']);
     $('#TurnsLeftInGameLabel').text(playerData['TurnLeftInGame']);
+    $('#MakeMoveButton').prop("disabled",playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn);
 }
 
 function refreshGameRoomPlayersList(playersList) {
