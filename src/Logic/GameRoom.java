@@ -120,7 +120,8 @@ public class GameRoom {
         i_PlayerToAdd.init();
         i_PlayerToAdd.setGameBoard(f_Board);
         i_PlayerToAdd.setMoveLimit(f_TurnLimit);
-        m_Players.add(i_PlayerToAdd);
+         m_Players.addLast(i_PlayerToAdd);
+         m_CurrentPlayer = m_Players.getFirst();
         m_IsGameRunning = m_Players.size() == f_MaxNumOfPlayers;
     }
 
