@@ -56,12 +56,19 @@ public class GameRoom {
         m_CurrentPlayer = m_Players.get(m_Index);
     }
 
-    public Boolean getIsGameRunning() {
+    public Boolean IsGameRunning() {
         return m_IsGameRunning;
     }
 
     public void setIsGameRunning(Boolean m_IsGameRunning) {
         this.m_IsGameRunning = m_IsGameRunning;
+    }
+
+    public Boolean hasPlayerWon(String i_PlayerName){
+       return getGamePlayerByName(i_PlayerName).getScore() == 100;
+    }
+    public Boolean isDraw(){
+        return m_Players.getLast().checkIfPlayerHasTurnLeft();
     }
 
     public Integer getMaxNumOfPlayers() {
@@ -113,6 +120,7 @@ public class GameRoom {
         i_PlayerToAdd.setGameBoard(f_Board);
         i_PlayerToAdd.setMoveLimit(f_TurnLimit);
         m_Players.add(i_PlayerToAdd);
+        m_IsGameRunning = m_Players.size() == f_MaxNumOfPlayers;
     }
 
     public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
