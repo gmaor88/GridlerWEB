@@ -12,7 +12,7 @@ $(function () {
     setInterval(ajaxUpdate, refreshRate);
     ajaxPlayerInfoUpdate();
     getAndShowGameBoard();
-})
+});
 
 function ajaxPlayerInfoUpdate() {
     ajaxPlayerData();
@@ -63,19 +63,21 @@ function buildBoard(height,width,horizontalSlices,verticalSlices){
         });
         board.append(row);
     }
-
-
-        $.each(verticalSlices || [], function (index, block) {
-            var col = document.createElement("div");
-            col.className = "BoardCol";
-            $.each(verticalSlices[index] || [], function (jndex, Block) {
-                cell = document.createElement("div");
-                cell.className = "gridSquare2";
-                cell.appendChild(VerticalBlocks[index][jndex]);
-                col.appendChild(cell);
-            });
-            board.append(col);
+    row = document.createElement("div");
+    row.className = "BoardCol";
+    $.each(verticalSlices || [], function (index, block) {
+        var col = document.createElement("div");
+        col.className = "BoardCol";
+        $.each(verticalSlices[index] || [], function (jndex, Block) {
+            cell = document.createElement("div");
+            cell.className = "gridSquare2";
+            cell.appendChild(VerticalBlocks[index][jndex]);
+            col.append(cell);
         });
+        row.append(col);
+        //board.append(col);
+    });
+    board.append(row);
     //document.getElementById("code").innerText = board.innerHTML;
 }
 
@@ -107,6 +109,44 @@ function createAndNullLabelSlices(length,Slices, ArrayToInsert){
 
         ArrayToInsert.push(innerArray);
     }
+}
+
+function initButtonSelectedArray() {
+    $.each(ButtonsSelected || [],function (index, buttons) {
+        $.each(buttons || [],function (jndex, slot) {
+            slot = null;
+        })
+    })
+}
+
+function makeMoveButtonClicked() {
+    var choice = $('.radioGroup:checked').value;
+    var data;
+    //data = choice + "|";
+    prepDataToSend(data);
+    $.ajax({
+        url: "MakeMoveServlet",
+        data: {'choice':choice, 'data':data},
+        type: 'POST',
+        success: function Redirect() {
+
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status === 400) {
+                $('#errorMsg').text(xhr.responseText);
+            }
+        }
+    });
+}
+
+function prepDataToSend(data) {
+    $.each(ButtonsSelected || [],function (index,Buttons) {
+        $.each(Buttons || [],function (jndex, Button) {
+            if(Button != null) {
+                data += index + "," + jndex + ".";
+            }
+        })
+    })
 }
 
 function ajaxPlayerData() {

@@ -78,9 +78,11 @@ margin-top: 30px;
     margin-bottom: 1px;
 }
 
-.BoardCol{
+.BoardCol {
     margin-bottom: 1px;
     display: inline-block;
+    column-fill: auto;
+    float: left;
 }
 
 .gridSquare{
