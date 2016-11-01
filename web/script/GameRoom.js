@@ -3,12 +3,16 @@
  */
 var refreshRate = 2000; //miliseconds
 var ButtonsSelected = [];
+var BoardButtons = [];
 var HorizontalBlocks = [];
 var VerticalBlocks =[];
+var IsMyTurn = false;
+var IsGameRunning = false;
 
 $(function () {
     $.ajaxSetup({cache: false});
     setGameRoomName();
+    $('#BlackRadioButtonOption').prop("checked", true);
     setInterval(ajaxUpdate, refreshRate);
     ajaxPlayerInfoUpdate();
     getAndShowGameBoard();
@@ -16,6 +20,34 @@ $(function () {
 
 function ajaxPlayerInfoUpdate() {
     ajaxPlayerData();
+}
+
+function updateGame() {
+    $.ajax({
+        url: "GetBoardServlet",
+        dataType: 'json',
+        success: function (gameBoardData) {
+            updateBoard(gameBoardData);
+        }
+    });
+    ajaxPlayerData();
+    initButtonSelectedArray();
+}
+
+function updateBoard(gameBoardData) {
+   $.each(gameBoardData['Board'] || [],function (index,row) {
+        $.each(row || [],function (jndex, square) {
+            if(square['m_CurrentSquareSign'] == "BLACKED"){
+                BoardButtons[index][jndex].className = "BLACKED";
+            }
+            else if(square['m_CurrentSquareSign'] == "CLEARED"){
+                BoardButtons[index][jndex].className = "CLEARED";
+            }
+            else{
+                BoardButtons[index][jndex].className = "UNDEFINED";
+            }
+        })
+    })
 }
 
 function getAndShowGameBoard() {
@@ -52,6 +84,7 @@ function buildBoard(height,width,horizontalSlices,verticalSlices){
                 this.classList.toggle('buttonSelected');
             });
             button.className = 'BoardButton';
+            BoardButtons[i][x] = button;
             cell.appendChild(button);
             row.append(cell);
         }
@@ -84,11 +117,14 @@ function buildBoard(height,width,horizontalSlices,verticalSlices){
 function createAndNullButtonsSelectedArray(Height, Width) {
     for(var i = 0; i < Height; i++) {
         var innerArray = [];
+        var BoardButtonsInnerArray = [];
         for(var j = 0; j < Width; j++){
             innerArray.push(null);
+            BoardButtonsInnerArray.push(null);
         }
 
         ButtonsSelected.push(innerArray);
+        BoardButtons.push(BoardButtonsInnerArray);
     }
 }
 
@@ -121,20 +157,31 @@ function initButtonSelectedArray() {
 
 function makeMoveButtonClicked() {
     var choice = $('.radioGroup:checked').value;
-    var data;
+    var data = "";
     //data = choice + "|";
     prepDataToSend(data);
     $.ajax({
         url: "MakeMoveServlet",
         data: {'choice':choice, 'data':data},
         type: 'POST',
-        success: function Redirect() {
-
-        },
+        success: updateGame(),
         error: function (xhr, status, error) {
             if (xhr.status === 400) {
                 $('#errorMsg').text(xhr.responseText);
             }
+        }
+    });
+}
+
+function endTurnButtonClicked() {
+    $.ajax({
+        url: "MakeMoveServlet",
+        type: 'POST',
+        success: function(){
+            $('#EndTurnButton').prop("disabled", true);
+            $('#MakeMoveButton').prop("disabled", true);
+            $('#UndoMoveButton').prop("disabled", true);
+            $('#RedoMoveButton').prop("disabled", true);
         }
     });
 }
@@ -160,7 +207,29 @@ function ajaxPlayerData() {
 }
 
 function ajaxUpdate(){
+    getIfGameRunningAndIfMyTurn();
     ajaxPlayersList();
+}
+
+function getIfGameRunningAndIfMyTurn() {
+    $.ajax({
+        url: "GameRunningAndPlayerTurnServlet",
+        dataType: 'json',
+        success: function (answer) {
+            if(answer.value == true){
+                if(IsGameRunning == false){
+                    alert ("Game Started!!!");
+                    IsGameRunning = true;
+                }
+
+                if(answer.key == true && IsMyTurn == false){
+                    alert ("Your Turn");
+                    IsMyTurn = true;
+                    $('#EndTurnButton').prop("disabled", false);
+                    $('#MakeMoveButton').prop("disabled", false);
+            }
+        }
+    }});
 }
 
 function setGameRoomName() {

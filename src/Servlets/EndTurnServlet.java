@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Created by Maor Gershkovitch on 11/1/2016.
  */
-@WebServlet(name = "MakeMoveServlet")
-public class MakeMoveServlet extends HttpServlet {
+@WebServlet(name = "EndTurnServlet", urlPatterns = "/EndTurnServlet")
+public class EndTurnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -27,16 +26,13 @@ public class MakeMoveServlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
+        try{
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoom gameRoom = gameManager.getGameRoomByName(SessionUtils.getChosenGame(request));
-            String playerName = SessionUtils.getUsername(request);
-            String ColorToChange = request.getParameter("choice");
-            String ButtonsToChange = request.getParameter("data");
-            gameRoom.getGamePlayerByName(playerName).preformPlayerMove(ButtonsToChange,ColorToChange);
+
+            gameRoom.EndTurn();
             response.setStatus(200);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

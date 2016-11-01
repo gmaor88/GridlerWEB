@@ -111,7 +111,7 @@ public class GameRoom {
         return m_CurrentPlayer.getName();
     }
 
-    public void addPlayerToGameRoom(GamePlayer i_PlayerToAdd) throws IOException{
+     void addPlayerToGameRoom(GamePlayer i_PlayerToAdd) throws IOException{
         if(m_Players.size() >= f_MaxNumOfPlayers || m_Players.contains(i_PlayerToAdd) || m_IsGameRunning){
             throw new IOException("Unable to login to game room. (Game room is full/running or, player is already registered to it)");
         }
@@ -123,9 +123,9 @@ public class GameRoom {
         m_IsGameRunning = m_Players.size() == f_MaxNumOfPlayers;
     }
 
-    public void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
+     void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
 
-    private GamePlayer getGamePlayerByName(String i_PlayerName){
+    public GamePlayer getGamePlayerByName(String i_PlayerName){
         GamePlayer result = null;
 
         for (GamePlayer player : m_Players){
