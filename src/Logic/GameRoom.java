@@ -48,6 +48,7 @@ public class GameRoom {
     }
 
     public void EndTurn(){
+        m_CurrentPlayer.endTurn();
         m_Index++;
         if(m_Index >= m_Players.size()){
             m_Index = 0;
