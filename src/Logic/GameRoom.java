@@ -85,9 +85,10 @@ public class GameRoom {
 
     public Boolean hasPlayerLost(String i_PlayerName){
         Boolean result = false;
+
         for(GamePlayer player: m_Players){
             if(hasPlayerWon(player)){
-                result = true;
+                result = !player.getName().equalsIgnoreCase(i_PlayerName);
                 break;
             }
         }
