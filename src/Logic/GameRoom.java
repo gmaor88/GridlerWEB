@@ -66,10 +66,33 @@ public class GameRoom {
     }
 
     public Boolean hasPlayerWon(String i_PlayerName){
-       return getGamePlayerByName(i_PlayerName).getScore() == 100;
+        return hasPlayerWon(getGamePlayerByName(i_PlayerName));
     }
+
+    public Boolean hasPlayerWon(GamePlayer i_player) {
+        Boolean result = i_player.getScore() == 100;
+
+        if(!result){
+            result = m_Players.size() == 1 && f_MaxNumOfPlayers > 1;
+        }
+
+        return result;
+    }
+
     public Boolean isDraw(){
         return m_Players.getLast().checkIfPlayerHasTurnLeft();
+    }
+
+    public Boolean hasPlayerLost(String i_PlayerName){
+        Boolean result = false;
+        for(GamePlayer player: m_Players){
+            if(hasPlayerWon(player)){
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 
     public Integer getMaxNumOfPlayers() {
