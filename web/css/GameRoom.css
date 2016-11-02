@@ -74,6 +74,15 @@ margin-top: 30px;
     width: 10px;
 }
 
+.col-md-9{
+    overflow-x: auto;
+    width: 900px;
+}
+
+#GameBoardArea{
+    width: 300%;
+}
+
 .BoardRow{
     margin-bottom: 1px;
 }
@@ -113,6 +122,7 @@ margin-top: 30px;
     height: 25px;
     width: 25px;
     padding: 4px;
+    color: black;
 }
 
 .completeBlock{

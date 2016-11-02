@@ -57,6 +57,7 @@ function updateBoard(gameBoardData) {
             }
         })
     })
+    updateCompletedBlockLabels(gameBoardData);
 }
 
 function updateCompletedBlockLabels(gameBoardData) {
@@ -215,10 +216,7 @@ function endTurnButtonClicked() {
         url: "EndTurnServlet",
         type: 'POST',
         success: function(){
-            $('#EndTurnButton').prop("disabled", true);
-            $('#MakeMoveButton').prop("disabled", true);
-            $('#UndoMoveButton').prop("disabled", true);
-            $('#RedoMoveButton').prop("disabled", true);
+            disableGameButtons();
             IsMyTurn = false;
         }
     });
@@ -326,12 +324,14 @@ function refreshPlayerData(playerData) {
     if(playerData['IsHumanPlayer']) {
         $('#MakeMoveButton').prop("disabled", playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn || !IsGameRunning);
         $('#UndoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
-        $('#RedoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
+        $('#RedoMoveButton').prop("disabled", !playerData['IsRedoAvailable'] || !IsMyTurn || !IsGameRunning);
     }
     else{
         disableGameButtons();
-        AiPlay();
-        endTurnButtonClicked();
+        if(IsMyTurn && IsGameRunning){
+            AiPlay();
+            endTurnButtonClicked();
+        }
     }
 }
 

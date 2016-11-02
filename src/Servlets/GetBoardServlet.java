@@ -34,7 +34,9 @@ public class GetBoardServlet extends HttpServlet {
             Gson gson = new Gson();
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoom gameRoom = gameManager.getGameRoomByName(SessionUtils.getChosenGame(request));
-            GamePlayer.BoardData boardData = gameRoom.getGamePlayerBoardData(SessionUtils.getUsername(request));
+            String playerName = SessionUtils.getUsername(request);
+            gameRoom.getGamePlayerByName(playerName).updateBlocks();
+            GamePlayer.BoardData boardData = gameRoom.getGamePlayerBoardData(playerName);
             String json = gson.toJson(boardData);
             out.println(json);
             out.flush();
