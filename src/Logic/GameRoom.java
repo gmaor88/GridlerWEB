@@ -80,7 +80,7 @@ public class GameRoom {
     }
 
     public Boolean isDraw(){
-        return m_Players.getLast().checkIfPlayerHasTurnLeft();
+        return !m_Players.getLast().checkIfPlayerHasTurnLeft();
     }
 
     public Boolean hasPlayerLost(String i_PlayerName){
