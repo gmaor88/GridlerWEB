@@ -36,10 +36,10 @@
 				Set Move:
 			</h3>
 			<div class="UndoRedoButtons">
-				<button class="btn btn-default" type="button" id="UndoMoveButton" disabled>
+				<button class="btn btn-default" type="button" id="UndoMoveButton" disabled onclick="UndoButtonClicked()">
 					Undo Move
 				</button>
-				<button class="btn btn-default" type="button" id="RedoMoveButton" disabled>
+				<button class="btn btn-default" type="button" id="RedoMoveButton" disabled onclick="RedoButtonClicked()">
 					Redo Move
 				</button>
 			</div>
@@ -53,15 +53,6 @@
 				<label class="btn btn-default">
 					<input type="radio" name="radioGroup" value="UNDEFINED" id="UndefinedRadioButtonOption">Undefined
 				</label>
-				<!--<button class="btn btn-default" type="radio" name="radioGroup" value="BLACKED" id="BlackRadioButtonOption">
-					Black
-				</button>
-				<button class="btn btn-default" type="radio" name="radioGroup" value="CLEARED" id="ClearedRadioButtonOption">
-					Cleared
-				</button> 
-				<button class="btn btn-default" type="radio" name="radioGroup" value="UNDEFINED" id="UndefinedRadioButtonOption">
-					Undefined
-				</button>-->
 			</div>
 			<div class="TurnAndMoveButtons">
 				<button class="btn btn-default" type="button" id="MakeMoveButton" disabled onclick=makeMoveButtonClicked()>

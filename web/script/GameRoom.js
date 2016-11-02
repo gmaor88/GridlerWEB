@@ -208,6 +208,28 @@ function endTurnButtonClicked() {
     });
 }
 
+function UndoButtonClicked() {
+    $.ajax({
+        url: "UndoServlet",
+        type: 'POST',
+        dataType: 'json',
+        success: function (){},
+        complete: function () {
+            updateGame();
+        }});
+}
+
+function RedoButtonClicked() {
+    $.ajax({
+        url: "RedoServlet",
+        type: 'POST',
+        dataType: 'json',
+        success: function (){},
+        complete: function () {
+            updateGame();
+        }});
+}
+
 function prepDataToSend() {
     var data = "";
     $.each(ButtonsSelected || [],function (index,Buttons) {
@@ -285,7 +307,27 @@ function refreshPlayerData(playerData) {
     $('#ScoreLabel').text(playerData['Score']);
     $('#MovesLeftInTurnLabel').text(playerData['MovesLeftInTurn']);
     $('#TurnsLeftInGameLabel').text(playerData['TurnLeftInGame']);
-    $('#MakeMoveButton').prop("disabled",playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn);
+    if(playerData['IsHumanPlayer']) {
+        $('#MakeMoveButton').prop("disabled", playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn || !IsGameRunning);
+        $('#UndoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
+        $('#RedoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
+    }
+    else{
+        disableGameButtons();
+        AiPlay();
+        endTurnButtonClicked();
+    }
+}
+
+function AiPlay() {
+
+}
+
+function disableGameButtons() {
+    $('#MakeMoveButton').prop("disabled", true);
+    $('#UndoMoveButton').prop("disabled", true);
+    $('#RedoMoveButton').prop("disabled", true);
+    $('#EndTurnButton').prop("disabled", true);
 }
 
 function refreshGameRoomPlayersList(playersList) {
