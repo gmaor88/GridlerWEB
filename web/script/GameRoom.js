@@ -25,13 +25,18 @@ function ajaxPlayerInfoUpdate() {
 function updateGame() {
     $.ajax({
         url: "GetBoardServlet",
+        type: "POST",
         dataType: 'json',
         success: function (gameBoardData) {
             updateBoard(gameBoardData);
+        },
+        complete: function () {
+            ajaxPlayerData();
+            initButtonSelectedArray();
         }
     });
-    ajaxPlayerData();
-    initButtonSelectedArray();
+    //ajaxPlayerData();
+    //initButtonSelectedArray();
 }
 
 function updateBoard(gameBoardData) {
@@ -163,7 +168,8 @@ function initButtonSelectedArray() {
                 slot.classList.remove("buttonSelected");
             }
 
-            slot = null;
+            //slot = null;
+            ButtonsSelected[index][jndex] = null;
         })
     })
 }
@@ -176,8 +182,9 @@ function makeMoveButtonClicked() {
         url: "MakeMoveServlet",
         data: {'choice':choice, 'data':data},
         type: 'POST',
-        success: function(){
-            updateGame()
+        success: function (){},
+        complete: function () {
+            updateGame();
         },
         error: function (xhr, status, error) {
             if (xhr.status === 400) {
