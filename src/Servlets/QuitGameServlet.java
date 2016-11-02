@@ -1,6 +1,7 @@
 package Servlets;
 
 import Logic.GameManager;
+import Utils.Constants;
 import Utils.ServletUtils;
 import Utils.SessionUtils;
 
@@ -32,6 +33,7 @@ public class QuitGameServlet extends HttpServlet {
         gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
         response.setStatus(200);
         try{
+            request.getSession(true).setAttribute(Constants.CHOSEN_GAME, "");
             response.sendRedirect("GameLobby.html");
         }
         catch (IOException e){

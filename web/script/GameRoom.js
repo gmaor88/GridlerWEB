@@ -202,6 +202,7 @@ function makeMoveButtonClicked() {
         success: function (){},
         complete: function () {
             updateGame();
+            checkIfWon();
         },
         error: function (xhr, status, error) {
             if (xhr.status === 400) {
@@ -209,6 +210,22 @@ function makeMoveButtonClicked() {
             }
         }
     });
+}
+
+function checkIfWon() {
+    if(IsGameRunning && IsMyTurn){
+        $.ajax({
+            url: "VictoryServlet",
+            dataType: 'json',
+            success: function (answer) {
+                if(answer == true) {
+                    alert("You WIN!!!");
+                    IsGameRunning = false;
+                    disableGameButtons();
+                    $('#QuitButton').prop("disabled", false);
+                }
+            }});
+    }
 }
 
 function endTurnButtonClicked() {
@@ -268,15 +285,34 @@ function ajaxPlayerData() {
 }
 
 function ajaxUpdate(){
+    if(IsGameRunning){
+        loseDrawCheckAjax();
+    }
+
     getIfGameRunningAndIfMyTurn();
     ajaxPlayersList();
+}
+
+function loseDrawCheckAjax() {
+    $.ajax({
+        url: "LoseDrawServlet",
+        dataType: 'json',
+        success: function (answer) {
+            if(answer.value == true) {
+                alert("You Lose!!!");
+                IsGameRunning = false;
+            }
+            else if(answer.key == true){
+                alert("The Game Ended In A Draw!!!");
+                IsGameRunning = false;
+            }
+        }});
 }
 
 function getIfGameRunningAndIfMyTurn() {
     $.ajax({
         url: "GameRunningAndPlayerTurnServlet",
         dataType: 'json',
-
         success: function (answer) {
             if(answer.value == true){
                 if(IsGameRunning == false){
@@ -290,8 +326,13 @@ function getIfGameRunningAndIfMyTurn() {
                     $('#EndTurnButton').prop("disabled", false);
                     $('#MakeMoveButton').prop("disabled", false);
                     updateGame();
+                }
             }
-        }
+            else{
+                IsGameRunning = false;
+                disableGameButtons();
+                $('#QuitButton').prop("disabled", false);
+            }
     }});
 }
 
@@ -325,6 +366,7 @@ function refreshPlayerData(playerData) {
         $('#MakeMoveButton').prop("disabled", playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn || !IsGameRunning);
         $('#UndoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
         $('#RedoMoveButton').prop("disabled", !playerData['IsRedoAvailable'] || !IsMyTurn || !IsGameRunning);
+        $('#QuitButton').prop("disabled", !IsMyTurn);
     }
     else{
         disableGameButtons();
@@ -351,6 +393,7 @@ function disableGameButtons() {
     $('#UndoMoveButton').prop("disabled", true);
     $('#RedoMoveButton').prop("disabled", true);
     $('#EndTurnButton').prop("disabled", true);
+    $('#QuitButton').prop("disabled", true);
 }
 
 function refreshGameRoomPlayersList(playersList) {
@@ -361,7 +404,7 @@ function refreshGameRoomPlayersList(playersList) {
         var tr = $('<tr>' + '<td>' + i + '<td>' + player['Name'] + '</td>' +
             '<td>'+ player['PlayerType']  +'</td>' +'<td>'+ player['Score'] +'</td>' + '</tr>' );
         if(player['Name'] == playersList['CurrentPlayer']){
-            tr.toggleClass('diffColor');
+            tr.className = "diffColor";
         }
 
         $("#GamePlayersTableBody").append(tr);

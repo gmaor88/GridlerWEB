@@ -32,6 +32,13 @@ public class JoinGameServlet extends HttpServlet {
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             String usernameFromSession = SessionUtils.getUsername(request);
             String gameRoomRequested = request.getParameter("game");
+            String chosenGameFromSession = SessionUtils.getChosenGame(request);
+
+            if(chosenGameFromSession != null) {
+                if (!gameRoomRequested.equalsIgnoreCase(chosenGameFromSession) && !gameRoomRequested.equalsIgnoreCase("")) {
+                    throw new IOException("you are already loged in.");
+                }
+            }
 
             gameManager.addUserToGameRoom(usernameFromSession, gameRoomRequested);
             request.getSession(true).setAttribute(Constants.CHOSEN_GAME, gameRoomRequested);
