@@ -105,7 +105,8 @@ margin-top: 30px;
 }
 
 .buttonSelected{
-    border: 4px #3da812;
+    border: #23c603;
+    border: 4px;
 }
 
 .incompleteBlock{

@@ -37,7 +37,7 @@ function updateGame() {
 function updateBoard(gameBoardData) {
    $.each(gameBoardData['Board'] || [],function (index,row) {
         $.each(row || [],function (jndex, square) {
-            BoardButtons.className = "BoardButton";
+            BoardButtons[index][jndex].className = "BoardButton";
             if(square['m_CurrentSquareSign'] == "BLACKED"){
                 BoardButtons[index][jndex].classList.add("BLACKED");
                 //BoardButtons[index][jndex].className += "BLACKED";
@@ -81,11 +81,13 @@ function buildBoard(height,width,horizontalSlices,verticalSlices){
                 event.preventDefault();
                 if(ButtonsSelected[j][k] == null) {
                     ButtonsSelected[j][k] = this;
+                    this.classList.add("buttonSelected");
                 }
                 else{
                     ButtonsSelected[j][k] = null;
+                    this.classList.remove("buttonSelected");
                 }
-                this.classList.toggle('buttonSelected');
+                //this.classList.toggle('buttonSelected');
             });
             //button.className = "BoardButton";
             //button.className += "UNDEFINED";
@@ -157,8 +159,10 @@ function initButtonSelectedArray() {
     $.each(ButtonsSelected || [],function (index, buttons) {
         $.each(buttons || [],function (jndex, slot) {
             if(slot != null){
-                slot.classList.toggle('buttonSelected');
+                //slot.classList.toggle('buttonSelected');
+                slot.classList.remove("buttonSelected");
             }
+
             slot = null;
         })
     })
@@ -172,7 +176,9 @@ function makeMoveButtonClicked() {
         url: "MakeMoveServlet",
         data: {'choice':choice, 'data':data},
         type: 'POST',
-        success: updateGame(),
+        success: function(){
+            updateGame()
+        },
         error: function (xhr, status, error) {
             if (xhr.status === 400) {
                 $('#errorMsg').text(xhr.responseText);
@@ -190,6 +196,7 @@ function endTurnButtonClicked() {
             $('#MakeMoveButton').prop("disabled", true);
             $('#UndoMoveButton').prop("disabled", true);
             $('#RedoMoveButton').prop("disabled", true);
+            IsMyTurn = false;
         }
     });
 }
@@ -239,6 +246,7 @@ function getIfGameRunningAndIfMyTurn() {
                     IsMyTurn = true;
                     $('#EndTurnButton').prop("disabled", false);
                     $('#MakeMoveButton').prop("disabled", false);
+                    updateGame();
             }
         }
     }});
