@@ -59,6 +59,22 @@ function updateBoard(gameBoardData) {
     })
 }
 
+function updateCompletedBlockLabels(gameBoardData) {
+    updateCompletedBlocksInSlices(gameBoardData['VerticalSlices'], VerticalBlocks);
+    updateCompletedBlocksInSlices(gameBoardData['HorizontalSlices'], HorizontalBlocks);
+}
+
+function updateCompletedBlocksInSlices (i_SlicesData, i_SliceLabels) {
+    $.each(i_SlicesData || [], function (index, block) {
+        $.each(i_SlicesData[index] || [], function (jndex, Block) {
+            i_SliceLabels[index][jndex].className = "incompleteBlock";
+            if(Block['m_Marked']==true){
+                i_SliceLabels[index][jndex].className = "completeBlock";
+            }
+        });
+    });
+}
+
 function getAndShowGameBoard() {
     $.ajax({
         url: "GetBoardServlet",
@@ -320,7 +336,14 @@ function refreshPlayerData(playerData) {
 }
 
 function AiPlay() {
-
+    $.ajax({
+        url: "AIPlayServlet",
+        type: 'POST',
+        dataType: 'json',
+        success: function (){},
+        complete: function () {
+            updateGame();
+        }});
 }
 
 function disableGameButtons() {
