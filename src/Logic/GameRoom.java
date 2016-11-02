@@ -201,12 +201,18 @@ public class GameRoom {
         private Double Score;
         private Integer MovesLeftInTurn;
         private Integer TurnLeftInGame;
+        private Boolean IsHumanPlayer;
+        private Boolean IsUndoAvailable;
+        private Boolean IsRedoAvailable;
 
         public PlayerData(GamePlayer i_Player){
             PlayerName = i_Player.getName();
             Score = i_Player.getScore();
             TurnLeftInGame = i_Player.getTurnLimit() - i_Player.getTurnNumber();
             MovesLeftInTurn = 2 - i_Player.getNumOfMovesMade();
+            IsHumanPlayer = i_Player.getIsHuman();
+            IsUndoAvailable = i_Player.isUndoAvailable();
+            IsRedoAvailable = i_Player.isRedoAvailable();
         }
     }
 }
