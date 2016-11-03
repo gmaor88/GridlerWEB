@@ -216,8 +216,12 @@ function QuitButtonClicked() {
     endTurnButtonClicked();
     $.ajax({
         url: "QuitGameServlet",
+        type: "POST",
         dataType: 'json',
-        success: function (){}
+        success: function (){},
+        complete: function () {
+            window.location = "GameLobby.html";
+        }
         });
 }
 
@@ -296,9 +300,10 @@ function ajaxPlayerData() {
 function ajaxUpdate(){
     if(IsGameRunning){
         loseDrawCheckAjax();
-        checkIfWon();
+        //checkIfWon();
     }
 
+    checkIfWon();
     getIfGameRunningAndIfMyTurn();
     ajaxPlayersList();
 }

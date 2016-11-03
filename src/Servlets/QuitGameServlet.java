@@ -30,14 +30,16 @@ public class QuitGameServlet extends HttpServlet {
         String usernameFromSession = SessionUtils.getUsername(request);
         String gameRoomFromSession = SessionUtils.getChosenGame(request);
 
-        gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
-        response.setStatus(200);
-        try{
+        //gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
+        //response.setStatus(200);
+        //try{
             request.getSession(true).setAttribute(Constants.CHOSEN_GAME, "");
-            response.sendRedirect("GameLobby.html");
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+            //response.sendRedirect("GameLobby.html");
+            gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
+            response.setStatus(200);
+        //}
+        //catch (IOException e){
+            //e.printStackTrace();
+        //}
     }
 }
