@@ -9,6 +9,7 @@ import java.util.LinkedList;
  */
 public class GameRoom {
     private LinkedList<GamePlayer> m_Players;
+    private ArrayList<GamePlayer> m_Spectators;
     private final GameBoard f_Board;
     private final Integer f_MaxNumOfPlayers;
     private Boolean m_IsGameRunning = false;
@@ -26,23 +27,14 @@ public class GameRoom {
         f_CreatorName = i_CreatorName;
     }
 
-    public void InsertPlayerToGameRoom(GamePlayer i_Player){
-        if(m_Players.size() >= f_MaxNumOfPlayers){
-            return;
-        }
-        else if(m_Players.contains(i_Player)){
-            return;
-        }
-
-        i_Player.setGameBoard(f_Board);
-        m_Players.addLast(i_Player);
-        m_CurrentPlayer = m_Players.getFirst();
+    public void InsertSpectatorToGameRoom(GamePlayer i_Player){
+        m_Spectators.add(i_Player);
     }
 
-    public void DeletePlayerFromGameRoom(String i_PlayerToDelete){
-        for(GamePlayer player : m_Players){
+    public void DeleteSpectatorFromGameRoom(String i_PlayerToDelete){
+        for(GamePlayer player : m_Spectators){
             if( player.getName().equalsIgnoreCase(i_PlayerToDelete)){
-                m_Players.remove(player);
+                m_Spectators.remove(player);
                 return;
             }
         }
