@@ -66,4 +66,17 @@ public class GameManager {
         gameRoomRequested.removePlayerFromGameRoom(playerToRemove);
     }
 
+    public void InsertSpectatorToGameRoom(String i_SpectatorName, String i_GameRoomName){
+        GamePlayer spectatorToAdd = m_OnlinePlayers.get(i_SpectatorName);
+        GameRoom gameRoomRequested = m_GameRooms.get(i_GameRoomName);
+
+        gameRoomRequested.InsertSpectatorToGameRoom(spectatorToAdd);
+    }
+
+    public void DeleteSpectatorFromGameRoom(String i_SpectatorName, String i_GameRoomName){
+        GamePlayer spectatorToRemove = m_OnlinePlayers.get(i_SpectatorName);
+        GameRoom gameRoomRequested = m_GameRooms.get(i_GameRoomName);
+
+        gameRoomRequested.DeleteSpectatorFromGameRoom(spectatorToRemove);
+    }
 }

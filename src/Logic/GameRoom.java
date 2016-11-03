@@ -32,13 +32,8 @@ public class GameRoom {
         m_Spectators.add(i_Player);
     }
 
-    public void DeleteSpectatorFromGameRoom(String i_PlayerToDelete){
-        for(GamePlayer player : m_Spectators){
-            if( player.getName().equalsIgnoreCase(i_PlayerToDelete)){
-                m_Spectators.remove(player);
-                return;
-            }
-        }
+    public void DeleteSpectatorFromGameRoom(GamePlayer i_PlayerToDelete){
+        m_Spectators.remove(i_PlayerToDelete);
     }
 
     public void setIsGameAtEndPhase(Boolean i_IsGameAtEndPhase){
