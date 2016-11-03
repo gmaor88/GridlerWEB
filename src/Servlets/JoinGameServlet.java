@@ -35,7 +35,7 @@ public class JoinGameServlet extends HttpServlet {
             String chosenGameFromSession = SessionUtils.getChosenGame(request);
 
             if(chosenGameFromSession != null) {
-                if (!gameRoomRequested.equalsIgnoreCase(chosenGameFromSession) && !gameRoomRequested.equalsIgnoreCase("")) {
+                if (!gameRoomRequested.equalsIgnoreCase(chosenGameFromSession) && !chosenGameFromSession.equalsIgnoreCase("")) {
                     throw new IOException("you are already loged in.");
                 }
             }

@@ -212,6 +212,15 @@ function makeMoveButtonClicked() {
     });
 }
 
+function QuitButtonClicked() {
+    endTurnButtonClicked();
+    $.ajax({
+        url: "QuitGameServlet",
+        dataType: 'json',
+        success: function (){}
+        });
+}
+
 function checkIfWon() {
     if(IsGameRunning && IsMyTurn){
         $.ajax({
@@ -287,6 +296,7 @@ function ajaxPlayerData() {
 function ajaxUpdate(){
     if(IsGameRunning){
         loseDrawCheckAjax();
+        checkIfWon();
     }
 
     getIfGameRunningAndIfMyTurn();
