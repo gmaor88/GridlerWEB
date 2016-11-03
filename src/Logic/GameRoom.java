@@ -176,6 +176,24 @@ public class GameRoom {
         return getGamePlayerByName(i_PlayerName).getGameBoardData();
     }
 
+    public Boolean IsSpectator(GamePlayer i_Player){
+        return m_Spectators.contains(i_Player);
+    }
+
+    public Integer getCurrentNumberOfSpectators(){
+        return m_Spectators.size();
+    }
+
+    public ArrayList<String> getGameRoomSpectators(){
+        ArrayList<String> result = new ArrayList<>();
+
+        for(GamePlayer spectator: m_Spectators){
+            result.add(spectator.getName());
+        }
+
+        return result;
+    }
+
     ///For GameRoomPlayerListServlet ////
     class GameRoomData{
         private final ArrayList<PlayerInfo> players = new ArrayList<>();
@@ -220,6 +238,7 @@ public class GameRoom {
         }
 
     }
+
 
     ///For PlayerDataServlet ////
     class PlayerData{

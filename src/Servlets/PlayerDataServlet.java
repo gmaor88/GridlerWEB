@@ -1,6 +1,7 @@
 package Servlets;
 
 import Logic.GameManager;
+import Logic.GamePlayer;
 import Logic.GameRoom;
 import Utils.ServletUtils;
 import Utils.SessionUtils;
@@ -34,6 +35,11 @@ public class PlayerDataServlet extends HttpServlet {
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoom gameRoom = gameManager.getGameRoomByName(SessionUtils.getChosenGame(request));
             String playerName = SessionUtils.getUsername(request);
+            GamePlayer player = gameManager.getGamePlayerByName(playerName);
+            if(gameRoom.IsSpectator(player)){
+                playerName = gameRoom.getCurrentPlayerName();
+            }
+
             String json = gson.toJson(gameRoom.getGamePlayerData(playerName));
             out.println(json);
             out.flush();

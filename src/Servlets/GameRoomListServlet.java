@@ -60,6 +60,8 @@ public class GameRoomListServlet extends HttpServlet {
                 gameInfo.setMaxNumOfPlayers(entry.getValue().getMaxNumOfPlayers());
                 gameInfo.setTurnLimit(entry.getValue().getTurnLimit());
                 gameInfo.setGameName(entry.getKey());
+                gameInfo.setCurrentNumberOfSpectators(entry.getValue().getCurrentNumberOfSpectators());
+                gameInfo.setGameRunning(entry.getValue().IsGameRunning());
                 GameRooms.add(gameInfo);
             }
         }
@@ -68,6 +70,7 @@ public class GameRoomListServlet extends HttpServlet {
             private String GameCreator;
             private Integer MaxNumOfPlayers;
             private Integer CurrentNumOfPlayers;
+            private Integer CurrentNumberOfSpectators;
             private Boolean IsGameRunning;
             private String BoardSize;
             private Integer TurnLimit;
@@ -82,6 +85,10 @@ public class GameRoomListServlet extends HttpServlet {
                 CurrentNumOfPlayers = i_CurrentNumOfPlayers;
             }
 
+            public void setCurrentNumberOfSpectators(Integer i_CurrentNumberOfSpectators) {
+                CurrentNumberOfSpectators = i_CurrentNumberOfSpectators;
+            }
+
             public void setGameCreator(String i_GameCreator) {
                 this.GameCreator = i_GameCreator;
             }
@@ -94,8 +101,12 @@ public class GameRoomListServlet extends HttpServlet {
                 this.TurnLimit = i_TurnLimit;
             }
 
-            public void setGameName(String m_GameName) {
-                this.GameName = m_GameName;
+            public void setGameName(String i_GameName) {
+                this.GameName = i_GameName;
+            }
+
+            public void setGameRunning(Boolean i_GameRunning) {
+                IsGameRunning = i_GameRunning;
             }
         }
 

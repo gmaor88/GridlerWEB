@@ -66,9 +66,13 @@ public class GameManager {
         gameRoomRequested.removePlayerFromGameRoom(playerToRemove);
     }
 
-    public void InsertSpectatorToGameRoom(String i_SpectatorName, String i_GameRoomName){
+    public void InsertSpectatorToGameRoom(String i_SpectatorName, String i_GameRoomName)throws IOException{
         GamePlayer spectatorToAdd = m_OnlinePlayers.get(i_SpectatorName);
         GameRoom gameRoomRequested = m_GameRooms.get(i_GameRoomName);
+
+        if(!gameRoomRequested.IsGameRunning()){
+            throw new IOException("Invalid action. spectate allowed only when game is running");
+        }
 
         gameRoomRequested.InsertSpectatorToGameRoom(spectatorToAdd);
     }

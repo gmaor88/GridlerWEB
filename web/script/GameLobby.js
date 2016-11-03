@@ -66,9 +66,11 @@ function refreshGameRoomsList(gameRooms) {
         //console.log(/*"Adding GameRoom #" + i + ": " + gameRoom.key + " " + gameRoom.value*/ Object.keys(gameRooms));
         var tr = $('<tr>' + '<td>' + i + '<td>' + gameRoom['GameName'] + '</td>' +
             '<td>'+ gameRoom['GameCreator']  +'</td>' +'<td>'+ gameRoom['TurnLimit']  +'</td>' +'<td>'+ gameRoom['BoardSize']
-            +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' + '</tr>' ).click(function () {
+            +'</td>' +'<td>'+ gameRoom['MaxNumOfPlayers']  +'</td>' + '<td>'+ gameRoom['CurrentNumOfPlayers']  +'</td>' +
+            '<td>' + gameRoom['CurrentNumberOfSpectators'] + '</td>' + '</tr>' ).click(function () {
             event.preventDefault();
             $('#JoinGameButton').prop('disabled', gameRoom['CurrentNumOfPlayers'] >= gameRoom['MaxNumOfPlayers']);
+            $('#JoinGameAsSpectatorButton').prop('disabled', !gameRoom['IsGameRunning']);
             if(gameRoom['GameName'] == chosenGame){
                 chosenGame = null;
                 $('#JoinGameButton').prop('disabled', true);
@@ -126,6 +128,22 @@ function validateFileFormat(i_File, event) {
 function joinGameButtonClick(event) {
     $.ajax({
         url: "JoinGameServlet",
+        data: {'game':chosenGame},
+        type: 'POST',
+        success: function Redirect() {
+            window.location="GameRoom.html";
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status === 400) {
+                $('#errorMsg').text(xhr.responseText);
+            }
+        }
+    });
+}
+
+function JoinGameAsSpectatorButtonClick(event){
+    $.ajax({
+        url: "SpectateGameServlet",
         data: {'game':chosenGame},
         type: 'POST',
         success: function Redirect() {

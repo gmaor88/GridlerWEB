@@ -1,6 +1,8 @@
 package Servlets;
 
 import Logic.GameManager;
+import Logic.GamePlayer;
+import Logic.GameRoom;
 import Utils.Constants;
 import Utils.ServletUtils;
 import Utils.SessionUtils;
@@ -29,17 +31,17 @@ public class QuitGameServlet extends HttpServlet {
         GameManager gameManager = ServletUtils.getGameManager(getServletContext());
         String usernameFromSession = SessionUtils.getUsername(request);
         String gameRoomFromSession = SessionUtils.getChosenGame(request);
+        GameRoom gameRoom = gameManager.getGameRoomByName(gameRoomFromSession);
 
-        //gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
-        //response.setStatus(200);
-        //try{
-            request.getSession(true).setAttribute(Constants.CHOSEN_GAME, "");
-            //response.sendRedirect("GameLobby.html");
+        GamePlayer player = gameManager.getGamePlayerByName(usernameFromSession);
+        if (gameRoom.IsSpectator(player)) {
+            gameRoom.DeleteSpectatorFromGameRoom(player);
+        }
+        else {
             gameManager.RemoveUserFromGameRoom(usernameFromSession, gameRoomFromSession);
-            response.setStatus(200);
-        //}
-        //catch (IOException e){
-            //e.printStackTrace();
-        //}
+        }
+
+        request.getSession(true).setAttribute(Constants.CHOSEN_GAME, "");
+        response.setStatus(200);
     }
 }

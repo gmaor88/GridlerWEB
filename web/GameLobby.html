@@ -72,6 +72,9 @@
                     <th>
                         Players Registered
                     </th>
+                    <th>
+                        Num Of Spectators
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="GameRoomsTableBody">
@@ -84,6 +87,9 @@
         <div class="col-md-12" id="joinButtonArea">
             <button class="btn btn-success" type="button" id="JoinGameButton" disabled onclick="joinGameButtonClick(event)">
                 Join Game
+            </button>
+            <button class="btn btn-success" type="button" id="JoinGameAsSpectatorButton" disabled onclick="JoinGameAsSpectatorButtonClick(event)">
+                spectate Game
             </button>
         </div>
     </div>

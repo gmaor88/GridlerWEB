@@ -8,15 +8,30 @@ var HorizontalBlocks = [];
 var VerticalBlocks =[];
 var IsMyTurn = false;
 var IsGameRunning = false;
+var IsSpectator = false;
 
 $(function () {
     $.ajaxSetup({cache: false});
     setGameRoomName();
+    ajaxIsSpectator();
     $('#BlackRadioButtonOption').prop("checked", true);
     setInterval(ajaxUpdate, refreshRate);
     ajaxPlayerInfoUpdate();
     getAndShowGameBoard();
 });
+
+function ajaxIsSpectator() {
+    $.ajax({
+        url: "IsSpectatorServlet",
+        dataType: 'json',
+        success: function (answer) {
+            if(answer == true) {
+                IsSpectator = true;
+                disableGameButtons();
+                $('#QuitButton').prop("disabled", false);
+            }
+        }});
+}
 
 function ajaxPlayerInfoUpdate() {
     ajaxPlayerData();
@@ -213,7 +228,9 @@ function makeMoveButtonClicked() {
 }
 
 function QuitButtonClicked() {
-    endTurnButtonClicked();
+    if(!IsSpectator) {
+        endTurnButtonClicked();
+    }
     $.ajax({
         url: "QuitGameServlet",
         type: "POST",
@@ -300,12 +317,18 @@ function ajaxPlayerData() {
 function ajaxUpdate(){
     if(IsGameRunning){
         loseDrawCheckAjax();
-        //checkIfWon();
     }
 
-    checkIfWon();
+    if(!IsSpectator) {
+        checkIfWon();
+    }
+    else{
+        updateGame();
+    }
+
     getIfGameRunningAndIfMyTurn();
     ajaxPlayersList();
+    ajaxSpectatorList();
 }
 
 function loseDrawCheckAjax() {
@@ -331,15 +354,17 @@ function getIfGameRunningAndIfMyTurn() {
         success: function (answer) {
             if(answer.value == true){
                 if(IsGameRunning == false){
-                    alert ("Game Started!!!");
+                    if(!IsSpectator) {
+                        alert("Game Started!!!");
+                    }
                     IsGameRunning = true;
                 }
 
                 if(answer.key == true && IsMyTurn == false){
                     alert ("Your Turn");
                     IsMyTurn = true;
-                    $('#EndTurnButton').prop("disabled", false);
-                    $('#MakeMoveButton').prop("disabled", false);
+                    $('#EndTurnButton').prop("disabled", false || IsSpectator);
+                    $('#MakeMoveButton').prop("disabled", false || IsSpectator);
                     updateGame();
                 }
             }
@@ -372,22 +397,34 @@ function ajaxPlayersList() {
     });
 }
 
+function ajaxSpectatorList() {
+    $.ajax({
+        url: "SpectatorsListServlet",
+        dataType: 'json',
+        success: function(spectatorsList) {
+            refreshSpectatorsList(spectatorsList);
+        }
+    });
+}
+
 function refreshPlayerData(playerData) {
     $('#PlayersNameLabel').text(playerData['PlayerName']);
     $('#ScoreLabel').text(playerData['Score']);
     $('#MovesLeftInTurnLabel').text(playerData['MovesLeftInTurn']);
     $('#TurnsLeftInGameLabel').text(playerData['TurnLeftInGame']);
-    if(playerData['IsHumanPlayer']) {
-        $('#MakeMoveButton').prop("disabled", playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn || !IsGameRunning);
-        $('#UndoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
-        $('#RedoMoveButton').prop("disabled", !playerData['IsRedoAvailable'] || !IsMyTurn || !IsGameRunning);
-        $('#QuitButton').prop("disabled", !IsMyTurn);
-    }
-    else{
-        disableGameButtons();
-        if(IsMyTurn && IsGameRunning){
-            AiPlay();
-            endTurnButtonClicked();
+    if(!IsSpectator) {
+        if (playerData['IsHumanPlayer']) {
+            $('#MakeMoveButton').prop("disabled", playerData['MovesLeftInTurn'] <= 0 || !IsMyTurn || !IsGameRunning);
+            $('#UndoMoveButton').prop("disabled", !playerData['IsUndoAvailable'] || !IsMyTurn || !IsGameRunning);
+            $('#RedoMoveButton').prop("disabled", !playerData['IsRedoAvailable'] || !IsMyTurn || !IsGameRunning);
+            $('#QuitButton').prop("disabled", !IsMyTurn);
+        }
+        else {
+            disableGameButtons();
+            if (IsMyTurn && IsGameRunning) {
+                AiPlay();
+                endTurnButtonClicked();
+            }
         }
     }
 }
@@ -424,6 +461,18 @@ function refreshGameRoomPlayersList(playersList) {
         }
 
         $("#GamePlayersTableBody").append(tr);
+        i++;
+    });
+}
+
+function refreshSpectatorsList(spectatorsList) {
+    //clear all current gameRooms
+    $("#spectatorsListTableBody").empty();
+    var i=1;
+    $.each(spectatorsList || [], function(index, spectator) {
+        var tr = $('<tr>' + '<td>' + i + '<td>' + spectator + '</td>' + '</tr>');
+
+        $("#spectatorsListTableBody").append(tr);
         i++;
     });
 }

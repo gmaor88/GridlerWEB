@@ -16,10 +16,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by Maor Gershkovitch on 10/31/2016.
+ * Created by Maor Gershkovitch on 11/3/2016.
  */
-@WebServlet(name = "GetBoardServlet", urlPatterns = "/GetBoardServlet")
-public class GetBoardServlet extends HttpServlet {
+@WebServlet(name = "IsSpectatorServlet", urlPatterns = "/IsSpectatorServlet")
+public class IsSpectatorServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -34,15 +34,9 @@ public class GetBoardServlet extends HttpServlet {
             Gson gson = new Gson();
             GameManager gameManager = ServletUtils.getGameManager(getServletContext());
             GameRoom gameRoom = gameManager.getGameRoomByName(SessionUtils.getChosenGame(request));
-            String playerName = SessionUtils.getUsername(request);
-            GamePlayer player = gameManager.getGamePlayerByName(playerName);
-            if(gameRoom.IsSpectator(player)){
-               playerName = gameRoom.getCurrentPlayerName();
-            }
-
-            gameRoom.getGamePlayerByName(playerName).updateBlocks();
-            GamePlayer.BoardData boardData = gameRoom.getGamePlayerBoardData(playerName);
-            String json = gson.toJson(boardData);
+            GamePlayer player = gameManager.getGamePlayerByName(SessionUtils.getUsername(request));
+            Boolean result = gameRoom.IsSpectator(player);
+            String json = gson.toJson(result);
             out.println(json);
             out.flush();
         } catch (IOException e) {
