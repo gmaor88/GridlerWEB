@@ -24,6 +24,7 @@ public class GameRoom {
         f_TurnLimit = i_TurnLimit;
         f_Board = i_Board;
         m_Players = new LinkedList<>();
+        m_Spectators = new ArrayList<>();
         f_CreatorName = i_CreatorName;
     }
 
