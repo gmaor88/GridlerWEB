@@ -418,8 +418,9 @@ function refreshGameRoomPlayersList(playersList) {
     $.each(playersList['players'] || [], function(index, player) {
         var tr = $('<tr>' + '<td>' + i + '<td>' + player['Name'] + '</td>' +
             '<td>'+ player['PlayerType']  +'</td>' +'<td>'+ player['Score'] +'</td>' + '</tr>' );
+        tr[0].className = "";
         if(player['Name'] == playersList['CurrentPlayer']){
-            tr.className = "diffColor";
+            tr[0].className = "diffColor";
         }
 
         $("#GamePlayersTableBody").append(tr);
