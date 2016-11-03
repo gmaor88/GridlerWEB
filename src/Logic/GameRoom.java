@@ -12,6 +12,7 @@ public class GameRoom {
     private final GameBoard f_Board;
     private final Integer f_MaxNumOfPlayers;
     private Boolean m_IsGameRunning = false;
+    private Boolean m_IsGameAtEndPhase = false;
     private final Integer f_TurnLimit;
     private final String f_CreatorName;
     private GamePlayer m_CurrentPlayer;
@@ -47,6 +48,10 @@ public class GameRoom {
         }
     }
 
+    public void setIsGameAtEndPhase(Boolean i_IsGameAtEndPhase){
+        m_IsGameAtEndPhase = i_IsGameAtEndPhase;
+    }
+
     public void EndTurn(){
         m_CurrentPlayer.endTurn();
         m_Index++;
@@ -61,8 +66,9 @@ public class GameRoom {
         return m_IsGameRunning;
     }
 
-    public void setIsGameRunning(Boolean m_IsGameRunning) {
-        this.m_IsGameRunning = m_IsGameRunning;
+    public void setIsGameRunning(Boolean i_IsGameRunning) {
+        m_IsGameAtEndPhase = m_IsGameRunning && !i_IsGameRunning && m_Players.size() > 0;
+        m_IsGameRunning = i_IsGameRunning;
     }
 
     public Boolean hasPlayerWon(String i_PlayerName){
@@ -140,6 +146,9 @@ public class GameRoom {
         if(m_Players.size() >= f_MaxNumOfPlayers || m_Players.contains(i_PlayerToAdd) || m_IsGameRunning){
             throw new IOException("Unable to login to game room. (Game room is full/running or, player is already registered to it)");
         }
+        else if(m_IsGameAtEndPhase){
+            throw new IOException("Unable to login to game room. Game Room is unavailable");
+        }
 
         i_PlayerToAdd.init();
         i_PlayerToAdd.setGameBoard(f_Board);
@@ -149,7 +158,12 @@ public class GameRoom {
         m_IsGameRunning = m_Players.size() == f_MaxNumOfPlayers;
     }
 
-     void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) { m_Players.remove(i_PlayerToRemove);  }
+     void removePlayerFromGameRoom(GamePlayer i_PlayerToRemove) {
+         m_Players.remove(i_PlayerToRemove);
+         if(m_Players.size() < 1){
+             m_IsGameAtEndPhase = false;
+         }
+     }
 
     public GamePlayer getGamePlayerByName(String i_PlayerName){
         GamePlayer result = null;
